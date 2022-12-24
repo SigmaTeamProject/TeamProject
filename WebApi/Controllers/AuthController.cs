@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Models;
-using Application.Commands;
+using Business.Auth;
 
 namespace WebApi.Controllers
 {
@@ -21,28 +21,26 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [ActionName("token")]
-        public async Task<IActionResult> Token([FromBody] LoginDto user)
+        public async Task<IActionResult> Token([FromBody] UserModel user)
         {
-            var command = _mapper.Map<LoginCommand>(user);
-            var (customer, token) = await _mediator.Send(command);
+            var command = _mapper.Map<IdentityCommand>(user);
+            var token = await _mediator.Send(command);
             var response = new
             {
                 access_token = token,
-                customer = customer
             };
-            return Ok(response);
+            return Json(response);
         }
 
         [HttpPost]
         [ActionName("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterUserDto user)
+        public async Task<IActionResult> Register([FromBody] RegisterUserModel user)
         {
             var command = _mapper.Map<RegisterUserCommand>(user);
-            var (customer, token) = await _mediator.Send(command);
+            var token = await _mediator.Send(command);
             var response = new
             {
                 access_token = token,
-                customer = customer
             };
             return Json(response);
         }
