@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.Models;
 using Application.Dtos;
-using Application.Auth;
-using Application.Commands.Auth;
+using Application.Commands.Auth.Login;
+using Application.Commands.Auth.Registration;
 
 namespace WebApi.Controllers
 {
@@ -37,7 +36,7 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [ActionName("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterUserModel user)
+        public async Task<IActionResult> Register([FromBody] RegisterUserDto user)
         {
             var command = _mapper.Map<RegisterUserCommand>(user);
             var (customer, token) = await _mediator.Send(command);
@@ -46,7 +45,7 @@ namespace WebApi.Controllers
                 access_token = token,
                 customer = customer
             };
-            return Json(response);
+            return Ok(response);
         }
     }
 }

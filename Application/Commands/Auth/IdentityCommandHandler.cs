@@ -1,4 +1,5 @@
-﻿using Application.Models;
+﻿using Application.Commands.Auth.Login;
+using Application.Models;
 using AutoMapper;
 using Data;
 using MediatR;
@@ -34,7 +35,7 @@ namespace Application.Auth
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Email, customer.Login),
-                new Claim(ClaimTypes.Role, customer.Roles.First().ToString())
+                new Claim(ClaimTypes.Role, customer.Roles.First().ToString()!)
             };
 
             var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);

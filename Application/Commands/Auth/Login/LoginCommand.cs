@@ -1,7 +1,7 @@
 ﻿using Application.Models;
 using MediatR;
 
-namespace Application.Auth
+namespace Application.Commands.Auth.Login
 {
     public class LoginCommand : IRequest<(CustomerModel, string)>
     {

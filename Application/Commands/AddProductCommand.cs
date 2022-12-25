@@ -1,9 +1,9 @@
-﻿using Application.ViewModels;
+﻿using Application.Models;
 using MediatR;
 
 namespace Application.Commands
 {
-    public class AddProductCommand : IRequest<ProductVm>
+    public class AddProductCommand : IRequest<ProductModel>
     {
         public decimal Price { get; set; }
         public double Weight { get; set; }
