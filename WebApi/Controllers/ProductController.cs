@@ -1,3 +1,5 @@
+using Application.Models;
+using Application.Queries.Product.GetAllProducts;
 using Application.Queries.Product.GetProductById;
 using AutoMapper;
 using MediatR;
@@ -25,4 +27,24 @@ public class ProductController : ControllerBase
         };
         return Ok(_mediator.Send(command));
     }
+
+    [HttpGet]
+    public async Task<ActionResult> GetAllProducts()
+    {
+        var command = new UpdateQuery
+        {
+
+        };
+        return Ok(_mediator.Send(command));
+    }
+    [HttpPost]
+    public async Task<ActionResult> Update(ProductModel productModel)
+    {
+        var command = new UpdateQuery
+        {
+            Product = productModel
+        };
+        return Ok(_mediator.Send(command));
+    }
+
 }
