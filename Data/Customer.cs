@@ -4,7 +4,7 @@ namespace Data;
 
 public class Customer : IdentityUser
 {
-    public PaymentConfig PaymentConfig { get; set; }
+    public PaymentConfig PaymentConfig {get; set;}
     public string Login { get; set; }
     public string Password { get; set; }
     public string Name { get; set; }
