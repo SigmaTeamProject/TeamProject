@@ -1,5 +1,4 @@
-﻿using Application.Commands.Auth.Login;
-using Application.Models;
+﻿using Application.Models;
 using AutoMapper;
 using Data;
 using MediatR;
@@ -10,16 +9,16 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Application.Auth
+namespace Application.Commands.Auth.Registration
 {
-    public class IdentityCommandHandler : IRequestHandler<LoginCommand, (CustomerModel, string)>
+    public class RegisterCommandHandler : IRequestHandler<RegisterUserCommand, (CustomerModel, string)>
     {
         private readonly IRepository<Customer> _repository;
         private readonly IMapper _mapper;
-        private readonly IConfiguration _config;
         private readonly SymmetricSecurityKey _key;
+        private readonly IConfiguration _config;
 
-        public IdentityCommandHandler(IMapper mapper, IRepository<Customer> repository, IConfiguration configuration)
+        public RegisterCommandHandler(IRepository<Customer> repository, IMapper mapper, IConfiguration configuration)
         {
             _repository = repository;
             _mapper = mapper;
@@ -27,10 +26,18 @@ namespace Application.Auth
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:Secret"]!));
         }
 
-        public async Task<(CustomerModel, string)> Handle(LoginCommand request, CancellationToken cancellationToken)
+        public async Task<(CustomerModel, string)> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
-            var customer = await _repository.FirstOrDefault(customer =>
-            customer.Login == request.Login && customer.Password == request.Password);
+            if (request.Password != request.ConfirmPassword)
+            {
+                throw new Exception("Passwords don't match");
+            }
+
+            var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
+
+            request.Password = passwordHash;
+
+            var customer = await _repository.Register(_mapper.Map<Customer>(request));
 
             var claims = new List<Claim>
             {
