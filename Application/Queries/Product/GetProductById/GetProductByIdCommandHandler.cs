@@ -1,5 +1,6 @@
 using Application.Models;
 using AutoMapper;
+using Data;
 using MediatR;
 using Persistence.Repository;
 
