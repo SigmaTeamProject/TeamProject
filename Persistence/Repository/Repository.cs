@@ -6,4 +6,14 @@ public class Repository<TEntity> : IRepository<TEntity>
     {
         throw new NotImplementedException();
     }
+
+    public Task<TEntity> GetById(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<TEntity> Register(TEntity entity)
+    {
+        throw new NotImplementedException();
+    }
 }
