@@ -5,4 +5,10 @@ namespace Data;
 public class Customer : IdentityUser
 {
     public PaymentConfig PaymentConfig {get; set;}
+    public string Login { get; set; }
+    public string Password { get; set; }
+    public string Name { get; set; }
+    public string Surname { get; set; }
+    public ICollection<Order> Orders { get; set; }
+    public DateOnly BirthDay { get; set; }
 }

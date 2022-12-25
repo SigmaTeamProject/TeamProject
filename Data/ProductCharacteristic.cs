@@ -1,6 +1,6 @@
 namespace Data;
 
-public class CharacterField
+public class ProductCharacteristic
 {
     public Product Product { get; set; }
     public string Name { get; set; }
