@@ -61,26 +61,26 @@ public static class SeedData
 
         // Set of StorageItems
         modelBuilder.Entity<StorageItem>().HasData(
-            new StorageItem() { Id = 1, ProductId = 1, Amount = 35 },
-            new StorageItem() { Id = 2, ProductId = 2, Amount = 150 },
-            new StorageItem() { Id = 3, ProductId = 3, Amount = 50 },
-            new StorageItem() { Id = 4, ProductId = 4, Amount = 47 },
-            new StorageItem() { Id = 5, ProductId = 5, Amount = 13 },
-            new StorageItem() { Id = 6, ProductId = 6, Amount = 259 },
-            new StorageItem() { Id = 7, ProductId = 7, Amount = 67 },
-            new StorageItem() { Id = 8, ProductId = 8, Amount = 50 },
-            new StorageItem() { Id = 9, ProductId = 9, Amount = 45 },
-            new StorageItem() { Id = 10, ProductId = 10, Amount = 156 },
-            new StorageItem() { Id = 11, ProductId = 11, Amount = 69 },
-            new StorageItem() { Id = 12, ProductId = 12, Amount = 645 },
-            new StorageItem() { Id = 13, ProductId = 13, Amount = 76 },
-            new StorageItem() { Id = 14, ProductId = 14, Amount = 45 },
-            new StorageItem() { Id = 15, ProductId = 15, Amount = 213 },
-            new StorageItem() { Id = 16, ProductId = 16, Amount = 56 },
-            new StorageItem() { Id = 17, ProductId = 17, Amount = 75 },
-            new StorageItem() { Id = 18, ProductId = 18, Amount = 56 },
-            new StorageItem() { Id = 19, ProductId = 19, Amount = 34 },
-            new StorageItem() { Id = 20, ProductId = 20, Amount = 43 }
+            new StorageItem() { ProductId = 1, Amount = 35 },
+            new StorageItem() { ProductId = 2, Amount = 150 },
+            new StorageItem() { ProductId = 3, Amount = 50 },
+            new StorageItem() { ProductId = 4, Amount = 47 },
+            new StorageItem() { ProductId = 5, Amount = 13 },
+            new StorageItem() { ProductId = 6, Amount = 259 },
+            new StorageItem() { ProductId = 7, Amount = 67 },
+            new StorageItem() { ProductId = 8, Amount = 50 },
+            new StorageItem() { ProductId = 9, Amount = 45 },
+            new StorageItem() { ProductId = 10, Amount = 156 },
+            new StorageItem() { ProductId = 11, Amount = 69 },
+            new StorageItem() { ProductId = 12, Amount = 645 },
+            new StorageItem() { ProductId = 13, Amount = 76 },
+            new StorageItem() { ProductId = 14, Amount = 45 },
+            new StorageItem() { ProductId = 15, Amount = 213 },
+            new StorageItem() { ProductId = 16, Amount = 56 },
+            new StorageItem() { ProductId = 17, Amount = 75 },
+            new StorageItem() { ProductId = 18, Amount = 56 },
+            new StorageItem() { ProductId = 19, Amount = 34 },
+            new StorageItem() { ProductId = 20, Amount = 43 }
             );
 
         // Set of Storage will be automatically created
