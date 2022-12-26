@@ -16,7 +16,7 @@ public class GetProductByIdCommandHandler : IRequestHandler<GetProductByIdQuery,
     }
     public async Task<ProductModel> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
     {
-        var product = await _repository.GetById(request.Id);
+        var product = await _repository.GetByIdAsync(request.Id);
         return _mapper.Map<ProductModel>(product);
     }
 }

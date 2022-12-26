@@ -1,9 +1,35 @@
-namespace DAL.Repositry;
+using Microsoft.EntityFrameworkCore;
+using Persistence.Context;
+using System.Linq.Expressions;
 
-public class Repository<TEntity> : IRepository<TEntity>
+namespace Persistence.Repository;
+
+public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 {
-    public Task<TEntity> GetById(int id)
+    public ApplicationDbContext context;
+    public DbSet<TEntity> dbSet;
+
+    public Repository(ApplicationDbContext context)
     {
-        throw new NotImplementedException();
+        this.context = context;
+        this.dbSet = context.Set<TEntity>();
+    }
+
+    public async Task<IEnumerable<TEntity>> GetAllAsync()
+    {
+        IQueryable<TEntity> query = dbSet;
+
+        return await query.ToListAsync();
+    }
+
+    public async Task<TEntity> GetByIdAsync(int id)
+    {
+        return await dbSet.FindAsync(id);
+    }
+
+    public async Task UpdateAsync(TEntity entityToUpdate)
+    {
+        dbSet.Attach(entityToUpdate);
+        context.Entry(entityToUpdate).State = EntityState.Modified;
     }
 }
