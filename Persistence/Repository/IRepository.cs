@@ -7,9 +7,7 @@ public interface IRepository<TEntity>
 {
     public Task<TEntity> GetByIdAsync(int id);
 
-    public Task<IEnumerable<TEntity>> GetAllAsync(
-            Expression<Func<TEntity, bool>> filter = null,
-            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null);
+    public Task<IEnumerable<TEntity>> GetAllAsync();
 
     public Task UpdateAsync(TEntity entity);
 }

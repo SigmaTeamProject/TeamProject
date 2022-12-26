@@ -15,25 +15,11 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
         this.dbSet = context.Set<TEntity>();
     }
 
-    public async Task<IEnumerable<TEntity>> GetAllAsync(
-            Expression<Func<TEntity, bool>> filter = null,
-            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null)
+    public async Task<IEnumerable<TEntity>> GetAllAsync()
     {
         IQueryable<TEntity> query = dbSet;
 
-        if (filter != null)
-        {
-            query = query.Where(filter);
-        }
-
-        if (orderBy != null)
-        {
-            return await orderBy(query).ToListAsync();
-        }
-        else
-        {
-            return await query.ToListAsync();
-        }
+        return await query.ToListAsync();
     }
 
     public async Task<TEntity> GetByIdAsync(int id)
