@@ -1,6 +1,6 @@
 using Data;
 
-namespace Persistence.Repository;
+namespace DAL.Repositry;
 
 public interface IRepository<TEntity>
 {

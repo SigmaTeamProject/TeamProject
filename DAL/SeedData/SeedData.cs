@@ -1,10 +1,9 @@
 using Data;
 using Microsoft.EntityFrameworkCore;
-using Persistence.EntityConfigurations;
 using System.ComponentModel;
 using System.Net.Http.Headers;
 
-namespace Persistence.SeedData;
+namespace DAL.SeedData;
 
 public static class SeedData
 {

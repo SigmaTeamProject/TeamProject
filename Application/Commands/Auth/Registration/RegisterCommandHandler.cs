@@ -1,10 +1,10 @@
 ﻿using Application.Models;
 using AutoMapper;
+using DAL.Repositry;
 using Data;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Persistence.Repository;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;

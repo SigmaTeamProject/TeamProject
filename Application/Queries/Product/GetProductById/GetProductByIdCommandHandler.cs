@@ -1,8 +1,7 @@
 using Application.Models;
 using AutoMapper;
-using Data;
+using DAL.Repositry;
 using MediatR;
-using Persistence.Repository;
 
 namespace Application.Queries.Product.GetProductById;
 
