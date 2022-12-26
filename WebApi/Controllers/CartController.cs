@@ -23,7 +23,7 @@ namespace WebApi.Controllers
         [HttpPut]
         public async Task<ActionResult> AddProductToCart([FromBody] AddInCartProductDto productToAdd)
         {
-            var command = _mapper.Map<AddProductCommand>(productToAdd);
+            var command = _mapper.Map<AddProductInCartCommand>(productToAdd);
             var result = await _mediator.Send(command);
             return Ok(result);
         }
@@ -31,7 +31,7 @@ namespace WebApi.Controllers
         [HttpPut]
         public async Task<ActionResult> UpdateCart([FromBody] UpdateProductInCartDto productToUpdate)
         {
-            var command = _mapper.Map<UpdateProductCommand>(productToUpdate);
+            var command = _mapper.Map<UpdateProductInCartCommand>(productToUpdate);
             var result = await _mediator.Send(command);
             return Ok(result);
         }

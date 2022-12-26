@@ -1,14 +1,12 @@
-﻿using Application.Models;
-using MediatR;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Commands.CartCommands.UpdateProduct
+namespace Application.Dtos
 {
-    public class UpdateProductCommand : IRequest<CartModel>
+    public class UpdateProductInCartDto
     {
         public int CartId { get; set; }
         public int ProductId { get; set; }

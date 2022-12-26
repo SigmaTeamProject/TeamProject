@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.Commands.CartCommands.AddProduct
 {
-    public class AddProductCommand: IRequest<CartModel>
+    public class AddProductInCartCommand: IRequest<CartModel>
     {
         public int CartId { get; set; }
         public int ProductId { get; set; }
