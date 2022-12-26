@@ -1,6 +1,8 @@
 namespace Data;
 
-public class PaymentConfig //її треба передавати в метод оплати (як конфігурацію)
+public class PaymentConfig
 {
-    public Customer Customer { get; set; }
+    public int CustomerId { get; set; }
+    public Customer? Customer { get; set; }
+    public string Type { get; set; }
 }

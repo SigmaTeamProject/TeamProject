@@ -2,6 +2,7 @@ namespace Data;
 
 public class Cart
 {
-    public Customer Customer { get; set; }
+    public int CustomerId { get; set; }
+    public Customer? Customer { get; set; }
     public ICollection<StorageItem> Items { get; set; }
 }
