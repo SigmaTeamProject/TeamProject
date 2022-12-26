@@ -9,7 +9,7 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class AuthController : Controller
+    public class AuthController : BaseController
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
@@ -21,7 +21,7 @@ namespace WebApi.Controllers
         }
 
          [HttpPost]
-         [ActionName("token")]
+         [ActionName("login")]
          public async Task<IActionResult> Token([FromBody] LoginDto user)
          {
              var command = _mapper.Map<LoginCommand>(user);

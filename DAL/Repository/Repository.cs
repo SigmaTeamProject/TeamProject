@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
+using DAL.Context;
+using DAL.Repositry;
 using Microsoft.EntityFrameworkCore;
-using Persistence.Context;
 
 namespace Persistence.Repository;
 
@@ -20,7 +21,21 @@ public class Repository<TEntity> : IRepository<TEntity>
     {
         return await _dbSet.FindAsync(id) ?? throw new ArgumentException("Entity with this id not found!");
     }
-    
+
+    public IQueryable<TEntity> Query(params Expression<Func<TEntity, object>>[] includes)
+    {
+        var dbSet = _dbContext.Set<TEntity>();
+        var query = includes
+            .Aggregate<Expression<Func<TEntity, object>>, IQueryable<TEntity>>(dbSet, (current, include) => current.Include(include));
+
+        return query ?? dbSet;
+    }
+
+    public async Task<IEnumerable<TEntity>> GetAllAsync()
+    {
+        return await _dbSet.ToListAsync();
+    }
+
     public async Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
     {
         return await _dbSet.FirstOrDefaultAsync(predicate);

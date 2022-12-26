@@ -8,6 +8,7 @@ using Persistence.Repository;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using DAL.Repositry;
 
 namespace Application.Commands.Auth.Login
 {
@@ -34,7 +35,7 @@ namespace Application.Commands.Auth.Login
 
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Email, customer.Login),
+                new Claim(JwtRegisteredClaimNames.Sub, customer.Id),
                 new Claim(ClaimTypes.Role, customer.Roles.First().ToString()!)
             };
 
