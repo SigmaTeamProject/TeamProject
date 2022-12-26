@@ -1,6 +1,5 @@
 ﻿using Application.Dtos;
-using Application.Queries.Product.GetAllProducts;
-using Application.Queries.Product.GetProductById;
+
 using AutoMapper;
 using Data;
 using MediatR;
@@ -15,14 +14,11 @@ namespace WebApi.Controllers
     [ApiController]
     public class StoregeController : ControllerBase
     {
-        private readonly IMediator _mediator;
-        private readonly IMapper _mapper;
+
         private readonly ApplicationDbContext _context;
 
-        public StoregeController(IMediator mediator,IMapper mapper,ApplicationDbContext context)
+        public StoregeController(ApplicationDbContext context)
         {
-            _mediator = mediator;
-            _mapper = mapper;
             _context = context;
         }
 
