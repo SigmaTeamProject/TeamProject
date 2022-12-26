@@ -19,8 +19,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<Cart> Carts { get; set; }
     public DbSet<Check> Checks { get; set; }
     public DbSet<StorageItem> StorageItems { get; set; }
-    public Customer Customers { get; set; }
-    public PaymentConfig PaymentConfigs { get; set; }
+    public DbSet<Customer> Customers { get; set; }
+    public DbSet<PaymentConfig> PaymentConfigs { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
