@@ -1,6 +1,9 @@
 using Data;
 using Microsoft.EntityFrameworkCore;
 using DAL.SeedData;
+using Microsoft.IdentityModel.Protocols;
+using System.Configuration;
+using Microsoft.Extensions.Configuration;
 
 namespace DAL.Context;
 
@@ -9,7 +12,7 @@ public class ApplicationDbContext : DbContext
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options):base(options)
     {
     }
-
+    
     public DbSet<Product> Products { get; set; }
     public DbSet<ProductCharacteristic> ProductCharacteristics { get; set; }
     public DbSet<Order> Orders { get; set; }
@@ -19,6 +22,16 @@ public class ApplicationDbContext : DbContext
     public Customer Customers { get; set; }
     public PaymentConfig PaymentConfigs { get; set; }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        var configuration = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json")
+            .Build();
+        var connectionString = configuration["DefaultConnection"];
+        optionsBuilder.UseSqlServer(connectionString);
+    }
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new ProductConfiguration());
