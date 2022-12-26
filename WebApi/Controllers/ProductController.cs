@@ -1,5 +1,10 @@
+using Application.Dtos;
+using Application.Models;
+using Application.Queries.Product.GetAllProducts;
 using Application.Queries.Product.GetProductById;
+using Application.Queries.Product.Update;
 using AutoMapper;
+using Data;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,4 +30,24 @@ public class ProductController : ControllerBase
         };
         return Ok(_mediator.Send(command));
     }
+
+    [HttpGet]
+    public async Task<ActionResult> GetAllProducts()
+    {
+        var command = new GetAllProductQuery
+        {
+
+        };
+        return Ok(_mediator.Send(command));
+    }
+    [HttpPost]
+    public async Task<ActionResult> Update(ProductDto product)
+    {
+        var command = new CommandQuery
+        {
+            Product = product
+        };
+        return Ok(_mediator.Send(command));
+    }
+
 }
