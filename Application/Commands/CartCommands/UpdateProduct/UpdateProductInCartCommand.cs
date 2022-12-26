@@ -10,7 +10,7 @@ namespace Application.Commands.CartCommands.UpdateProduct
 {
     public class UpdateProductInCartCommand : IRequest<CartModel>
     {
-        public int CartId { get; set; }
+        public int UserId { get; set; }
         public int ProductId { get; set; }
         public int Count { get; set; }
     }
