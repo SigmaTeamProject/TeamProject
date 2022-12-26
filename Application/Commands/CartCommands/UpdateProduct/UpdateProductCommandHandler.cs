@@ -14,14 +14,11 @@ namespace Application.Commands.CartCommands.UpdateProduct
     public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, CartModel>
     {
         private readonly IRepository<Cart> _cartRepository;
-        private readonly IRepository<StorageItem> _storageItemRepository;
         private readonly IMapper _mapper;
 
-        public UpdateProductCommandHandler(IMapper mapper, IRepository<Cart> cartRepository,
-            IRepository<StorageItem> storageItemRepository)
+        public UpdateProductCommandHandler(IMapper mapper, IRepository<Cart> cartRepository)
         {
             _cartRepository = cartRepository;
-            _storageItemRepository = storageItemRepository;
             _mapper = mapper;
         }
 
@@ -31,7 +28,7 @@ namespace Application.Commands.CartCommands.UpdateProduct
 
             var cart = await _cartRepository.GetById(request.CartId);
 
-            var product = cart.Items.FirstOrDefault(await _storageItemRepository.GetById(request.ProductId));
+            var product = cart.Items.FirstOrDefault(item => item.Product.Id == request.ProductId);
             product.Amount = request.Count;
 
             await _cartRepository.Update(cart);

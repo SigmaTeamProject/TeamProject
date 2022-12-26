@@ -1,4 +1,5 @@
 ﻿using Application.Commands.CartCommands.AddProduct;
+using Application.Commands.CartCommands.UpdateProduct;
 using Application.Dtos;
 using AutoMapper;
 using MediatR;
@@ -20,7 +21,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> AddProduct([FromBody] AddInCartProductDto productToAdd)
+        public async Task<ActionResult> AddProductToCart([FromBody] AddInCartProductDto productToAdd)
         {
             var command = _mapper.Map<AddProductCommand>(productToAdd);
             var result = await _mediator.Send(command);
@@ -28,9 +29,9 @@ namespace WebApi.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> UpdateProduct([FromBody] UpdateProductInCartDto productToUpdate)
+        public async Task<ActionResult> UpdateCart([FromBody] UpdateProductInCartDto productToUpdate)
         {
-            var command = _mapper.Map<AddProductCommand>(productToUpdate);
+            var command = _mapper.Map<UpdateProductCommand>(productToUpdate);
             var result = await _mediator.Send(command);
             return Ok(result);
         }
