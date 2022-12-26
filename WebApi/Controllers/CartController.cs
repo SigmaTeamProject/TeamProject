@@ -28,15 +28,11 @@ namespace WebApi.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> UpdateCount([FromBody] UpdateProductCountDto productToUpdate) // TO ADD realization
+        public async Task<ActionResult> UpdateProduct([FromBody] UpdateProductInCartDto productToUpdate)
         {
-            return Ok();
-        }
-
-        [HttpDelete("delete/{id:int}")]
-        public async Task<ActionResult> DeleteProduct(int id)// TO ADD realization
-        {
-            return Ok();
+            var command = _mapper.Map<AddProductCommand>(productToUpdate);
+            var result = await _mediator.Send(command);
+            return Ok(result);
         }
     }
 }
