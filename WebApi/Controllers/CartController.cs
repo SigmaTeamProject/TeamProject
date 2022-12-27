@@ -14,7 +14,7 @@ namespace WebApi.Controllers
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        public CartController(IMediator mediator, IMapper mapper)
+        public CartController(IMediator mediator,IMapper mapper)
         {
             _mediator = mediator;
             _mapper = mapper;
