@@ -32,32 +32,32 @@ namespace Application.Commands.Auth.Registration
             {
                 throw new Exception("Passwords don't match");
             }
-
+        
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
-
+        
             request.Password = passwordHash;
-
-            var customer = await _repository.Register(_mapper.Map<Customer>(request));
-
+        
+            var customer = await _repository.AddAsync(_mapper.Map<Customer>(request));
+        
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Email, customer.Login),
-                new Claim(ClaimTypes.Role, customer.Roles.First().ToString()!)
+                //new Claim(ClaimTypes.Role, customer.Roles.First().ToString()!)
             };
-
+        
             var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
-
+        
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.Now.AddMinutes(60),
                 SigningCredentials = credentials
             };
-
+        
             var tokenHandler = new JwtSecurityTokenHandler();
-
+        
             var token = tokenHandler.CreateToken(tokenDescriptor);
-
+        
             return (_mapper.Map<CustomerModel>(customer), tokenHandler.WriteToken(token));
         }
     }
