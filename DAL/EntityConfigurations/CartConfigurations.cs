@@ -8,6 +8,6 @@ public class CartConfigurations : IEntityTypeConfiguration<Cart>
 {
     public void Configure(EntityTypeBuilder<Cart> builder)
     {
-        builder.ToTable("Carts");
+        builder.ToTable("Carts").HasKey(p => p.CustomerId);
     }
 }

@@ -17,7 +17,6 @@ public class ApplicationDbContext : DbContext
     public DbSet<Order> Orders { get; set; }
     public DbSet<Cart> Carts { get; set; }
     public DbSet<Check> Checks { get; set; }
-    public DbSet<Storage> Storages { get; set; }
     public DbSet<StorageItem> StorageItems { get; set; }
     public DbSet<Customer> Customers { get; set; }
     public DbSet<PaymentConfig> PaymentConfigs { get; set; }
@@ -48,7 +47,6 @@ public class ApplicationDbContext : DbContext
         modelBuilder.ApplyConfiguration(new OrderConfigurations());
         modelBuilder.ApplyConfiguration(new PaymentConfigConfigurations());
         modelBuilder.ApplyConfiguration(new ProductCharacteristicConfigurations());
-        modelBuilder.ApplyConfiguration(new StorageConfigurations());
         modelBuilder.ApplyConfiguration(new StorageItemConfigurations());
 
         SeedData.SeedData.Seed(modelBuilder);
