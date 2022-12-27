@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Application.Queries.Product.GetAllProducts;
 
-public class GetAllProductQuery : IRequest<IEnumerable<ProductModel>>
+public class GetAllProductQuery : IRequest<IEnumerable<ProductPreviewModel>>
 {
 
 }

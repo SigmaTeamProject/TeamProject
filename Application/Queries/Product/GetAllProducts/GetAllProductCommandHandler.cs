@@ -1,12 +1,13 @@
 using Application.Models;
 using AutoMapper;
+using DAL.Repositry;
 using Data;
 using MediatR;
 using Persistence.Repository;
 
 namespace Application.Queries.Product.GetAllProducts;
 
-public class GetAllProductCommandHandler : IRequestHandler<GetAllProductQuery, IEnumerable<ProductModel>>
+public class GetAllProductCommandHandler : IRequestHandler<GetAllProductQuery, IEnumerable<ProductPreviewModel>>
 {
     private readonly IRepository<Data.Product> _repository;
     private readonly IMapper _mapper;
@@ -15,9 +16,9 @@ public class GetAllProductCommandHandler : IRequestHandler<GetAllProductQuery, I
         _repository = repository;
         _mapper = mapper;
     }
-    public async Task<IEnumerable<ProductModel>> Handle(GetAllProductQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<ProductPreviewModel>> Handle(GetAllProductQuery request, CancellationToken cancellationToken)
     {
         var products = await _repository.GetAllAsync();
-        return products.Select(product => _mapper.Map<ProductModel>(products));
+        return _mapper.ProjectTo<ProductPreviewModel>(products.AsQueryable());
     }
 }

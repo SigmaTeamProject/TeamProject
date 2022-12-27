@@ -9,7 +9,7 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class AuthController : Controller
+    public class AuthController : BaseController
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
@@ -20,17 +20,17 @@ namespace WebApi.Controllers
             _mapper = mapper;
         }
 
-        [HttpPost]
-        [ActionName("token")]
-        public async Task<IActionResult> Token([FromBody] LoginDto user)
-        {
-            var command = _mapper.Map<LoginCommand>(user);
-            var (customer, token) = await _mediator.Send(command);
-            var response = new
-            {
-                access_token = token,
-                customer = customer
-            };
+         [HttpPost]
+         [ActionName("login")]
+         public async Task<IActionResult> Token([FromBody] LoginDto user)
+         {
+             var command = _mapper.Map<LoginCommand>(user);
+             var (customer, token) = await _mediator.Send(command);
+             var response = new
+             {
+                 access_token = token,
+                 customer = customer
+             };
             return Ok(response);
         }
 
