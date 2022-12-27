@@ -14,6 +14,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddDbContext<ApplicationDbContext>();
+
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>

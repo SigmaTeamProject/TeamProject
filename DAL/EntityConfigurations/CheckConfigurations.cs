@@ -8,6 +8,6 @@ public class CheckConfigurations : IEntityTypeConfiguration<Check>
 {
     public void Configure(EntityTypeBuilder<Check> builder)
     {
-        builder.ToTable("Checks");
+        builder.ToTable("Checks").HasKey(p=>p.OrderId);
     }
 }

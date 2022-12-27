@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
+﻿namespace Data;
 
-namespace Data;
-
-public class Customer : IdentityUser
+public class Customer
 {
     public int PaymentConfigId { get; set; }
     public PaymentConfig? PaymentConfig {get; set;}
+    public string? Role { get; set; }
     public string Login { get; set; }
     public int Id { get; set; }
     public string Password { get; set; }
@@ -13,4 +12,6 @@ public class Customer : IdentityUser
     public string Surname { get; set; }
     public ICollection<Order> Orders { get; set; }
     public DateOnly BirthDay { get; set; }
+    public Cart Cart { get; set; }
+    public int CartId { get; set; }
 }

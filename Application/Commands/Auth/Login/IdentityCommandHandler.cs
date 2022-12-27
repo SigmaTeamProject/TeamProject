@@ -36,7 +36,7 @@ namespace Application.Commands.Auth.Login
             var claims = new List<Claim>
             {
              //   new Claim(JwtRegisteredClaimNames.Sub, customer.Id),
-                new Claim(ClaimTypes.Role, customer.Roles.First().ToString()!)
+                //new Claim(ClaimTypes.Role, customer.Roles.First().ToString()!)
             };
         
             var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
