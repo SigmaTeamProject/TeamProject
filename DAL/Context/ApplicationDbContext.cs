@@ -18,6 +18,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Order> Orders { get; set; }
     public DbSet<Cart> Carts { get; set; }
     public DbSet<Check> Checks { get; set; }
+    public DbSet<Storage> Storages { get; set; }
     public DbSet<StorageItem> StorageItems { get; set; }
     public DbSet<Customer> Customers { get; set; }
     public DbSet<PaymentConfig> PaymentConfigs { get; set; }
