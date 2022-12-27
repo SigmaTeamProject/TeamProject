@@ -12,7 +12,7 @@ namespace WebApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ProductController : ControllerBase
+public class ProductController : BaseController
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
@@ -41,7 +41,7 @@ public class ProductController : ControllerBase
         return Ok(_mediator.Send(command));
     }
     [HttpPost]
-    public async Task<ActionResult> Update(UpdateProdcuctInStoregeCommandHandler product)
+    public async Task<ActionResult> Update(ProductDto product)
     {
         var command = new CommandQuery
         {

@@ -27,13 +27,16 @@ namespace Application.Commands.CartCommands.AddProduct
         }
         public async Task<CartModel> Handle(AddProductInCartCommand request,CancellationToken cancellationToken)
         {
-            if (request == null) throw new ArgumentException();
+            if (request == null)
+                throw new ArgumentException();
+            var userId = request.UserId;
+            var cart = await _cartRepository.Query()
+                .Include(cart => cart.Customer)
+                .FirstOrDefaultAsync(cart => cart.Customer!.Id == userId,cancellationToken);
 
-            var cart = await _cartRepository.GetById(request.CartId);
+            cart.Items.Add(await _storageItemRepository.GetByIdAsync(request.ProductId));
 
-            cart.Items.Add(await _storageItemRepository.GetById(request.ProductId));
-
-            await _cartRepository.Update(cart);
+            await _cartRepository.UpdateAsync(cart);
             await _cartRepository.SaveChangesAsync();
 
             return _mapper.Map<CartModel>(cart);

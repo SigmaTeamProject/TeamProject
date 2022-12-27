@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Application.Queries.Product.Update;
 
-public class CommandQuery : IRequest<UpdateProdcuctInStoregeCommandHandler>
+public class CommandQuery : IRequest<ProductDto>
 {
-    public UpdateProdcuctInStoregeCommandHandler Product { get; set; }
+    public ProductDto Product { get; set; }
 }
