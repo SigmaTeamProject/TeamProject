@@ -100,16 +100,8 @@ public static class SeedData
 
         // Set of PaymentConfig
         modelBuilder.Entity<PaymentConfig>().HasData(
-            new PaymentConfig() { CustomerId = 1, Type = "MasterCard" },
-            new PaymentConfig() { CustomerId = 2, Type = "MasterCard" },
-            new PaymentConfig() { CustomerId = 3, Type = "MasterCard" },
-            new PaymentConfig() { CustomerId = 4, Type = "MasterCard" },
-            new PaymentConfig() { CustomerId = 5, Type = "MasterCard" },
-            new PaymentConfig() { CustomerId = 6, Type = "Visa" },
-            new PaymentConfig() { CustomerId = 7, Type = "Visa" },
-            new PaymentConfig() { CustomerId = 8, Type = "Visa" },
-            new PaymentConfig() { CustomerId = 9, Type = "Visa" },
-            new PaymentConfig() { CustomerId = 10, Type = "Visa" }
+            new PaymentConfig() { Id = 1, Type = "MasterCard" },
+            new PaymentConfig() { Id = 2, Type = "Visa" }
             );
 
         // Set of Orders
