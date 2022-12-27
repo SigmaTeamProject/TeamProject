@@ -41,7 +41,7 @@ public class ProductController : ControllerBase
         return Ok(_mediator.Send(command));
     }
     [HttpPost]
-    public async Task<ActionResult> Update(ProductDto product)
+    public async Task<ActionResult> Update(UpdateProdcuctInStoregeCommandHandler product)
     {
         var command = new CommandQuery
         {

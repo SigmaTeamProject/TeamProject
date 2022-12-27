@@ -1,12 +1,12 @@
-﻿using Application.Dtos;
-
-using AutoMapper;
+﻿using AutoMapper;
 using Data;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.Entity.Infrastructure;
 using DAL.Context;
 using System.Data.Entity;
+using Application.Models;
+using Application.Dtos;
 
 namespace WebApi.Controllers
 {
@@ -16,17 +16,21 @@ namespace WebApi.Controllers
     {
 
         private readonly ApplicationDbContext _context;
+        private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
-        public StoregeController(ApplicationDbContext context)
+        public StoregeController(ApplicationDbContext context,IMediator mediator,IMapper mapper)
         {
             _context = context;
+            _mediator = mediator;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductDto>>> GetAllProducts() => await _context.Products.Select(s => new ProductDto { Id = s.Id,Name = s.Name,Price = s.Price,Characteristics = s.Characteristics }).ToListAsync();
+        public async Task<ActionResult<IEnumerable<ProductPreviewModel>>> GetAllProducts() => await _context.Products.Select(s => new ProductPreviewModel { Name = s.Name,Price = s.Price,}).ToListAsync();
 
         [HttpGet("{Id:int}")]
-        public async Task<ActionResult<ProductDto>> GetProductById(int Id)
+        public async Task<ActionResult<ProductModel>> GetProductById(int Id)
         {
             var product = await _context.Products.FindAsync(Id);
 
@@ -43,13 +47,12 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddProduct(ProductDto newProduct)
+        public async Task<ActionResult> AddProduct(ProductModel newProduct)
         {
             var product = new Product
             {
                 Name = newProduct.Name,
                 Price = newProduct.Price,
-                Characteristics = newProduct.Characteristics,
             };
 
             _context.Products.Add(product);
@@ -59,41 +62,14 @@ namespace WebApi.Controllers
         }
 
         [HttpPut("{Id:int}")]
-        public async Task<IActionResult> UpdateProduct(int Id,ProductDto productDTO)
+        public async Task<IActionResult> UpdateProduct([FromBody] ProductDto updateProduct)
         {
-            if (Id != productDTO.Id)
-            {
-                return BadRequest();
-            }
-
-            var product = await _context.Products.FindAsync(Id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                productDTO.Name = productDTO.Name;
-                product.Characteristics = productDTO.Characteristics;
-                productDTO.Price = productDTO.Price;
-            }
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException) when (!ProductExists(Id))
-            {
-                return NotFound();
-            }
-
-            return NoContent();
+            var command = _mapper.Map<ProductDto>(updateProduct);
+            var result = await _mediator.Send(command);
+            return Ok(result);
         }
 
-        private bool ProductExists(int Id)
-        {
-            return _context.Products.Any(p => p.Id == Id);
-        }
+
 
 
     }
