@@ -7,7 +7,6 @@ using Microsoft.OpenApi.Models;
 using Persistence.Repository;
 using System.Text;
 using WebApi.Extensions;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
