@@ -86,30 +86,22 @@ public static class SeedData
 
         // Set of Customers
         modelBuilder.Entity<Customer>().HasData(
-            new Customer() { Login = "heidrich@me.com", Name = "Adelyn", Surname = "Sawyer", Password = "9*TeG*vmg1%PKnOb", BirthDay = new DateOnly(2000, 11, 13) },
-            new Customer() { Login = "mcrawfor@mac.com", Name = "Ernest", Surname = "Duke", Password = "Dm8-k&Qov@*N+9pw", BirthDay = new DateOnly(2003, 9, 25) },
-            new Customer() { Login = "attwood@optonline.net", Name = "Nathen", Surname = "Becker", Password = "J8=WHk7IvVe1IWfZ", BirthDay = new DateOnly(2005, 7, 2) },
-            new Customer() { Login = "aegreene@optonline.net", Name = "Keyon", Surname = "Snyder", Password = "AQnNNu?43i557vdV", BirthDay = new DateOnly(1984, 8, 17) },
-            new Customer() { Login = "ralamosm@comcast.net", Name = "Kyan", Surname = "Bray", Password = "90OWn8pd=2c5ba_m", BirthDay = new DateOnly(1984, 7, 12) },
-            new Customer() { Login = "miami@aol.com", Name = "Enzo", Surname = "Costa", Password = "1HwyNX^D5lt1&xe3", BirthDay = new DateOnly(1992, 4, 2) },
-            new Customer() { Login = "aegreene@me.com", Name = "Janae", Surname = "Brennan", Password = "dKtG3ZgF", BirthDay = new DateOnly(1983, 10, 31) },
-            new Customer() { Login = "nasor@aol.com", Name = "Branson", Surname = "Vazquez", Password = "4+729dx8", BirthDay = new DateOnly(1987, 5, 25) },
-            new Customer() { Login = "epeeist@att.net", Name = "Jairo", Surname = "Graves", Password = "rfB5vO6k", BirthDay = new DateOnly(1999, 11, 2) },
-            new Customer() { Login = "jdray@icloud.com", Name = "Paula", Surname = "Giles", Password = "0ONy2LUn", BirthDay = new DateOnly(1992, 6, 22) }
+            new Customer() { Id = 1, Login = "heidrich@me.com", Name = "Adelyn", Surname = "Sawyer", Password = "9*TeG*vmg1%PKnOb", BirthDay = new DateOnly(2000, 11, 13) },
+            new Customer() { Id = 2, Login = "mcrawfor@mac.com", Name = "Ernest", Surname = "Duke", Password = "Dm8-k&Qov@*N+9pw", BirthDay = new DateOnly(2003, 9, 25) },
+            new Customer() { Id = 3, Login = "attwood@optonline.net", Name = "Nathen", Surname = "Becker", Password = "J8=WHk7IvVe1IWfZ", BirthDay = new DateOnly(2005, 7, 2) },
+            new Customer() { Id = 4, Login = "aegreene@optonline.net", Name = "Keyon", Surname = "Snyder", Password = "AQnNNu?43i557vdV", BirthDay = new DateOnly(1984, 8, 17) },
+            new Customer() { Id = 5, Login = "ralamosm@comcast.net", Name = "Kyan", Surname = "Bray", Password = "90OWn8pd=2c5ba_m", BirthDay = new DateOnly(1984, 7, 12) },
+            new Customer() { Id = 6, Login = "miami@aol.com", Name = "Enzo", Surname = "Costa", Password = "1HwyNX^D5lt1&xe3", BirthDay = new DateOnly(1992, 4, 2) },
+            new Customer() { Id = 7, Login = "aegreene@me.com", Name = "Janae", Surname = "Brennan", Password = "dKtG3ZgF", BirthDay = new DateOnly(1983, 10, 31) },
+            new Customer() { Id = 8, Login = "nasor@aol.com", Name = "Branson", Surname = "Vazquez", Password = "4+729dx8", BirthDay = new DateOnly(1987, 5, 25) },
+            new Customer() { Id = 9, Login = "epeeist@att.net", Name = "Jairo", Surname = "Graves", Password = "rfB5vO6k", BirthDay = new DateOnly(1999, 11, 2) },
+            new Customer() { Id = 10, Login = "jdray@icloud.com", Name = "Paula", Surname = "Giles", Password = "0ONy2LUn", BirthDay = new DateOnly(1992, 6, 22) }
             );
 
         // Set of PaymentConfig
         modelBuilder.Entity<PaymentConfig>().HasData(
-            new PaymentConfig() { CustomerId = 1, Type = "MasterCard" },
-            new PaymentConfig() { CustomerId = 2, Type = "MasterCard" },
-            new PaymentConfig() { CustomerId = 3, Type = "MasterCard" },
-            new PaymentConfig() { CustomerId = 4, Type = "MasterCard" },
-            new PaymentConfig() { CustomerId = 5, Type = "MasterCard" },
-            new PaymentConfig() { CustomerId = 6, Type = "Visa" },
-            new PaymentConfig() { CustomerId = 7, Type = "Visa" },
-            new PaymentConfig() { CustomerId = 8, Type = "Visa" },
-            new PaymentConfig() { CustomerId = 9, Type = "Visa" },
-            new PaymentConfig() { CustomerId = 10, Type = "Visa" }
+            new PaymentConfig() { Id = 1, Type = "MasterCard" },
+            new PaymentConfig() { Id = 2, Type = "Visa" }
             );
 
         // Set of Orders
