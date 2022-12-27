@@ -29,10 +29,9 @@ namespace Application.Commands.Auth.Login
 
         public async Task<(CustomerModel, string)> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
-            var customer = await _repository.FirstOrDefaultAsync(customer=> customer.Id ==1);
-            // var customer = await _repository.FirstOrDefaultAsync(customer =>
-            //     customer.Login == request.Login && 
-            //     BCrypt.Net.BCrypt.Verify(customer.Password, request.Password));
+            var customer = await _repository.FirstOrDefaultAsync(customer =>
+                customer.Login == request.Login && 
+                BCrypt.Net.BCrypt.Verify(customer.Password, request.Password,false,BCrypt.Net.HashType.SHA384));
         
             var claims = new List<Claim>
             {
