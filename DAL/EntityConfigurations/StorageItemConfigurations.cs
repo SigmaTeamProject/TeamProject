@@ -4,11 +4,10 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DAL.Context;
 
-public class StorageItemConfigurations
+public class StorageItemConfigurations: IEntityTypeConfiguration<StorageItem>
 {
     public void Configure(EntityTypeBuilder<StorageItem> builder)
     {
         builder.ToTable("StorageItems");
-        builder.HasKey(p => p.ProductId);
     }
 }

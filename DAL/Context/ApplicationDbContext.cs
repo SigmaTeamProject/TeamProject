@@ -1,8 +1,8 @@
 using Data;
-using System.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using DAL.Helpers;
+using System.Diagnostics.Metrics;
 
 namespace DAL.Context;
 
@@ -28,7 +28,7 @@ public class ApplicationDbContext : DbContext
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json")
             .Build();
-        var connectionString = configuration["DefaultConnection"];
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
         optionsBuilder.UseSqlServer(connectionString);
     }
 
@@ -42,6 +42,14 @@ public class ApplicationDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new ProductConfiguration());
+        modelBuilder.ApplyConfiguration(new CartConfigurations());
+        modelBuilder.ApplyConfiguration(new CheckConfigurations());
+        modelBuilder.ApplyConfiguration(new CustomerConfigurations());
+        modelBuilder.ApplyConfiguration(new OrderConfigurations());
+        modelBuilder.ApplyConfiguration(new PaymentConfigConfigurations());
+        modelBuilder.ApplyConfiguration(new ProductCharacteristicConfigurations());
+        modelBuilder.ApplyConfiguration(new StorageConfigurations());
+        modelBuilder.ApplyConfiguration(new StorageItemConfigurations());
 
         SeedData.SeedData.Seed(modelBuilder);
     }

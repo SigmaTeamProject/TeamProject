@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace DAL.Context;
 
-public class CustomerConfigurations
+public class CustomerConfigurations : IEntityTypeConfiguration<Customer>
 {
     public void Configure(EntityTypeBuilder<Customer> builder)
     {
