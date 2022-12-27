@@ -1,7 +1,8 @@
 using Data;
-using Microsoft.EntityFrameworkCore;
 using System.Configuration;
 using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+using DAL.Helpers;
 
 namespace DAL.Context;
 
@@ -30,7 +31,14 @@ public class ApplicationDbContext : DbContext
         var connectionString = configuration["DefaultConnection"];
         optionsBuilder.UseSqlServer(connectionString);
     }
-    
+
+    protected override void ConfigureConventions(ModelConfigurationBuilder builder)
+    {
+        builder.Properties<DateOnly>()
+            .HaveConversion<DateOnlyConverter>()
+            .HaveColumnType("date");
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new ProductConfiguration());

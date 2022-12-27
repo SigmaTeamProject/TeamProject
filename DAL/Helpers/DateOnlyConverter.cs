@@ -10,9 +10,8 @@ namespace DAL.Helpers
     public class DateOnlyConverter : ValueConverter<DateOnly, DateTime>
     {
         public DateOnlyConverter() : base(
-                dateOnly => dateOnly.ToDateTime(TimeOnly.MinValue),
-                dateTime => DateOnly.FromDateTime(dateTime))
-        {
-        }
+                d => d.ToDateTime(TimeOnly.MinValue),
+                d => DateOnly.FromDateTime(d))
+        { }
     }
 }

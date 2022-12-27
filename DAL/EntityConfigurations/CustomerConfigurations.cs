@@ -1,4 +1,3 @@
-using DAL.Helpers;
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -14,7 +13,6 @@ public class CustomerConfigurations
         builder.Property(p => p.Name).IsRequired().HasMaxLength(25);
         builder.Property(p => p.Surname).HasMaxLength(25);
         builder.Property(p => p.Login).IsRequired();
-        builder.Property(p => p.BirthDay).HasConversion<DateOnlyConverter, DateOnlyComparer>();
         builder.Property(p => p.Password).IsRequired();
         builder.HasMany(p => p.Orders)
             .WithOne(u => u.Customer);
