@@ -1,6 +1,5 @@
 using Data;
 using Microsoft.EntityFrameworkCore;
-using DAL.SeedData;
 using Microsoft.IdentityModel.Protocols;
 using System.Configuration;
 using Microsoft.Extensions.Configuration;
@@ -37,7 +36,7 @@ public class ApplicationDbContext : DbContext
     {
         modelBuilder.ApplyConfiguration(new ProductConfiguration());
 
-        SeedData.Seed(modelBuilder);
+        SeedData.SeedData.Seed(modelBuilder);
     }
     
 }
