@@ -35,7 +35,7 @@ namespace Application.Commands.Auth.Login
         
             var claims = new List<Claim>
             {
-             //   new Claim(JwtRegisteredClaimNames.Sub, customer.Id),
+             //   new Claim(JwtRegisteredClaimNames.Sub, customer.CustomerId),
                 //new Claim(ClaimTypes.Role, customer.Roles.First().ToString()!)
             };
         

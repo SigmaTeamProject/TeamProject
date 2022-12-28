@@ -14,5 +14,7 @@ public class ProductCharacteristicConfigurations : IEntityTypeConfiguration<Prod
        // builder.Property(p => p.ProductId).IsRequired();
         builder.Property(p => p.Name).IsRequired().HasMaxLength(25);
         builder.Property(p => p.Value).IsRequired();
+        builder.HasOne(characteristic => characteristic.Product)
+            .WithMany(product => product.Characteristics);
     }
 }

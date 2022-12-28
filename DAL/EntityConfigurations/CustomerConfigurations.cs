@@ -16,6 +16,9 @@ public class CustomerConfigurations : IEntityTypeConfiguration<Customer>
         builder.Property(p => p.Login).IsRequired();
         builder.Property(p => p.Password).IsRequired();
         builder.HasMany(p => p.Orders)
+            .WithOne(u => u.Customer);
+        builder.HasOne(customer => customer.PaymentConfig)
+            .WithOne(config => config.Customer);
             .WithOne(u => u.Customer).HasForeignKey(u => u.CustomerId);
         builder.HasOne(p => p.PaymentConfig)
             .WithOne(p => p.Customer)
