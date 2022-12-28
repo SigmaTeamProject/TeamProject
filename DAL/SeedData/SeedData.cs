@@ -35,7 +35,7 @@ public static class SeedData
             );
 
         // Set of ProductCharacteristic
-        modelBuilder.Entity<ProductCharacteristic>().HasData(
+        /*modelBuilder.Entity<ProductCharacteristic>().HasData(
             new ProductCharacteristic() { ProductId = 1, Name = "Material", Value = "Wool" },
             new ProductCharacteristic() { ProductId = 2, Name = "Brand", Value = "ChinaTown" },
             new ProductCharacteristic() { ProductId = 3, Name = "Material", Value = "Polyester" },
@@ -56,10 +56,10 @@ public static class SeedData
             new ProductCharacteristic() { ProductId = 18, Name = "Brand", Value = "Adidas" },
             new ProductCharacteristic() { ProductId = 19, Name = "Brand", Value = "Victoria`s Secret" },
             new ProductCharacteristic() { ProductId = 20, Name = "Brand", Value = "ChinaTown" }
-            );
+            );*/
 
         // Set of StorageItems
-        modelBuilder.Entity<StorageItem>().HasData(
+        /*modelBuilder.Entity<StorageItem>().HasData(
             new StorageItem() { ProductId = 1, Amount = 35 },
             new StorageItem() { ProductId = 2, Amount = 150 },
             new StorageItem() { ProductId = 3, Amount = 50 },
@@ -80,7 +80,7 @@ public static class SeedData
             new StorageItem() { ProductId = 18, Amount = 56 },
             new StorageItem() { ProductId = 19, Amount = 34 },
             new StorageItem() { ProductId = 20, Amount = 43 }
-            );
+            );*/
 
         // Set of Storage will be automatically created
 
@@ -100,22 +100,30 @@ public static class SeedData
 
         // Set of PaymentConfig
         modelBuilder.Entity<PaymentConfig>().HasData(
-            new PaymentConfig() { Id = 1, Type = "MasterCard" },
-            new PaymentConfig() { Id = 2, Type = "Visa" }
+            new PaymentConfig() { CustomerId = 1, Type = "MasterCard" },
+            new PaymentConfig() { CustomerId = 2, Type = "MasterCard" },
+            new PaymentConfig() { CustomerId = 3, Type = "MasterCard" },
+            new PaymentConfig() { CustomerId = 4, Type = "MasterCard" },
+            new PaymentConfig() { CustomerId = 5, Type = "MasterCard" },
+            new PaymentConfig() { CustomerId = 6, Type = "Visa" },
+            new PaymentConfig() { CustomerId = 7, Type = "Visa" },
+            new PaymentConfig() { CustomerId = 8, Type = "Visa" },
+            new PaymentConfig() { CustomerId = 9, Type = "Visa" },
+            new PaymentConfig() { CustomerId = 10, Type = "Visa" }
             );
 
         // Set of Orders
         modelBuilder.Entity<Order>().HasData(
-            new Order() { CustomerId = 1, Id = 1, OrderDate= new DateTime(2022, 10, 13) },
-            new Order() { CustomerId = 2, Id = 2, OrderDate = new DateTime(2022, 10, 13) },
-            new Order() { CustomerId = 3, Id = 3, OrderDate = new DateTime(2022, 10, 14) },
-            new Order() { CustomerId = 4, Id = 4, OrderDate = new DateTime(2022, 10, 15) },
-            new Order() { CustomerId = 5, Id = 5, OrderDate = new DateTime(2022, 10, 20) },
-            new Order() { CustomerId = 6, Id = 6, OrderDate = new DateTime(2022, 11, 13) },
-            new Order() { CustomerId = 7, Id = 7, OrderDate = new DateTime(2022, 11, 30) },
-            new Order() { CustomerId = 8, Id = 8, OrderDate = new DateTime(2022, 12, 22) },
-            new Order() { CustomerId = 9, Id = 9, OrderDate = new DateTime(2022, 12, 14) },
-            new Order() { CustomerId = 10, Id = 10, OrderDate = new DateTime(2022, 12, 13) }
+            new Order() { CartId = 1, CustomerId = 1, Id = 1, OrderDate= new DateTime(2022, 10, 13) },
+            new Order() { CartId = 2, CustomerId = 2, Id = 2, OrderDate = new DateTime(2022, 10, 13) },
+            new Order() { CartId = 3, CustomerId = 3, Id = 3, OrderDate = new DateTime(2022, 10, 14) },
+            new Order() { CartId = 4, CustomerId = 4, Id = 4, OrderDate = new DateTime(2022, 10, 15) },
+            new Order() { CartId = 5, CustomerId = 5, Id = 5, OrderDate = new DateTime(2022, 10, 20) },
+            new Order() { CartId = 6, CustomerId = 6, Id = 6, OrderDate = new DateTime(2022, 11, 13) },
+            new Order() { CartId = 7, CustomerId = 7, Id = 7, OrderDate = new DateTime(2022, 11, 30) },
+            new Order() { CartId = 8, CustomerId = 8, Id = 8, OrderDate = new DateTime(2022, 12, 22) },
+            new Order() { CartId = 9, CustomerId = 9, Id = 9, OrderDate = new DateTime(2022, 12, 14) },
+            new Order() { CartId = 10, CustomerId = 10, Id = 10, OrderDate = new DateTime(2022, 12, 13) }
             );
 
         // Set of Checks

@@ -33,6 +33,7 @@ builder.Services.AddSwagger();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -52,5 +53,15 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-
+using var scope = app.Services.CreateScope();
+var provider = scope.ServiceProvider;
+var context = provider.GetRequiredService<ApplicationDbContext>();
+try
+{
+    context.Database.EnsureCreated();
+}
+catch (Exception e)
+{
+    Console.WriteLine(e);
+}
 app.Run();

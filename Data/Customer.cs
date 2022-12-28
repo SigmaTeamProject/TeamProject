@@ -2,7 +2,6 @@
 
 public class Customer
 {
-    public int PaymentConfigId { get; set; }
     public PaymentConfig? PaymentConfig {get; set;}
     public string? Role { get; set; }
     public string Login { get; set; }

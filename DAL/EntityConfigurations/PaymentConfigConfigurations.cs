@@ -9,7 +9,9 @@ public class PaymentConfigConfigurations : IEntityTypeConfiguration<PaymentConfi
     public void Configure(EntityTypeBuilder<PaymentConfig> builder)
     {
         builder.ToTable("PaymentConfigurations");
-        builder.HasKey(p => p.Id);
+        builder.HasKey(p => p.CustomerId);
         builder.Property(p => p.Type).HasMaxLength(25);
+        builder.HasOne(paymentConfig => paymentConfig.Customer)
+            .WithOne(customer => customer.PaymentConfig);
     }
 }
