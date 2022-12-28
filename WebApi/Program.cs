@@ -1,7 +1,14 @@
+using Application.Services.Implementation;
+using Application.Services.Interfaces;
 using DAL.Context;
 using Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using NLog;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSingleton<ILoggerManager, LoggerManager>();
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Persistence.Repository;
@@ -9,7 +16,6 @@ using System.Text;
 using WebApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
-
 builder.Services.AddControllers();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -33,7 +39,10 @@ builder.Services.AddSwagger();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
+
 var app = builder.Build();
+
+LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
 
 if (app.Environment.IsDevelopment())
 {
