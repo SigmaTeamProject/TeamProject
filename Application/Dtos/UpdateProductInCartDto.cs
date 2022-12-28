@@ -8,7 +8,6 @@ namespace Application.Dtos
 {
     public class UpdateProductInCartDto
     {
-        public int CartId { get; set; }
         public int ProductId { get; set; }
         public int Count { get; set; }
     }

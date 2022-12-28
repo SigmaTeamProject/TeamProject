@@ -9,12 +9,12 @@ namespace WebApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CartController : ControllerBase
+    public class CartController : BaseController
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        public CartController(IMediator mediator,IMapper mapper)
+        public CartController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
             _mapper = mapper;
@@ -24,6 +24,7 @@ namespace WebApi.Controllers
         public async Task<ActionResult> AddProductToCart([FromBody] AddInCartProductDto productToAdd)
         {
             var command = _mapper.Map<AddProductInCartCommand>(productToAdd);
+            command.UserId = UserId;
             var result = await _mediator.Send(command);
             return Ok(result);
         }
@@ -32,6 +33,7 @@ namespace WebApi.Controllers
         public async Task<ActionResult> UpdateCart([FromBody] UpdateProductInCartDto productToUpdate)
         {
             var command = _mapper.Map<UpdateProductInCartCommand>(productToUpdate);
+            command.UserId = UserId;
             var result = await _mediator.Send(command);
             return Ok(result);
         }

@@ -9,6 +9,8 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
     public void Configure(EntityTypeBuilder<Product> builder)
     {
         builder.ToTable("Products").HasKey(p => p.Id);
-        //other methods
+        builder.Property(p => p.Name).IsRequired().HasMaxLength(25);
+        builder.HasMany(p => p.Characteristics)
+            .WithOne(u => u.Product);
     }
 }
