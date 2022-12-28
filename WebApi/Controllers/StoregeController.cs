@@ -7,6 +7,8 @@ using DAL.Context;
 using System.Data.Entity;
 using Application.Models;
 using Application.Dtos;
+using Application.Queries.Product.GetProductById;
+using Application.Queries.Product.GetAllProducts;
 
 namespace WebApi.Controllers
 {
@@ -15,50 +17,48 @@ namespace WebApi.Controllers
     public class StoregeController : ControllerBase
     {
 
-        private readonly ApplicationDbContext _context;
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        public StoregeController(ApplicationDbContext context,IMediator mediator,IMapper mapper)
+        public StoregeController(IMediator mediator,IMapper mapper)
         {
-            _context = context;
             _mediator = mediator;
             _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductPreviewModel>>> GetAllProducts() => await _context.Products.Select(s => new ProductPreviewModel { Name = s.Name,Price = s.Price,}).ToListAsync();
+        public async Task<ActionResult<IEnumerable<ProductPreviewModel>>> GetAllProducts()
+        {
+            var command = new GetAllProductQuery
+            {
+
+            };
+            return Ok(_mediator.Send(command));
+        }
 
         [HttpGet("{Id:int}")]
         public async Task<ActionResult<ProductModel>> GetProductById(int Id)
         {
-            var product = await _context.Products.FindAsync(Id);
-
-            if (product == null)
+            var command = new GetProductByIdQuery
             {
-                return NotFound();
-            }
-            else
-            {
-                return Ok(product);
-            }
-
-
+                Id = Id
+            };
+            return Ok(_mediator.Send(command));
         }
 
         [HttpPost]
         public async Task<ActionResult> AddProduct(ProductModel newProduct)
         {
-            var product = new Product
+            var prod = new Product
             {
                 Name = newProduct.Name,
-                Price = newProduct.Price,
+                Price = newProduct.Price
             };
 
-            _context.Products.Add(product);
-            await _context.SaveChangesAsync();
+            var command = _mapper.Map<Product>(prod);
+            var result = await _mediator.Send(command);
+            return Ok(result);
 
-            return CreatedAtAction(nameof(GetProductById),new { Id = product.Id },product);
         }
 
         [HttpPut("{Id:int}")]

@@ -27,11 +27,13 @@ namespace Application.Commands.StoregeCommands.UpdateProduct
 
             var product = await _productRepository.GetByIdAsync(request.Id);
 
-            product.Name = request.Name;
-            product.Price = request.Price;
+            if (product != null)
+            {
+                product.Name = request.Name;
+                product.Price = request.Price;
+            }
 
 
-            await _productRepository.UpdateAsync(product);
             await _productRepository.SaveChangesAsync();
             return _mapper.Map<ProductModel>(product);
 
