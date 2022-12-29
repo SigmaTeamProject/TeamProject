@@ -81,22 +81,54 @@ public static class SeedData
             new StorageItem() { ProductId = 19, Amount = 34 },
             new StorageItem() { ProductId = 20, Amount = 43 }
             );
+        modelBuilder.Entity<ProductCharacteristic>().HasData(
+            new ProductCharacteristic() { Id = 1, ProductId = 1, Name = "Material", Value = "Wool" },
+            new ProductCharacteristic() { Id = 2, ProductId = 2, Name = "Brand", Value = "ChinaTown" },
+            new ProductCharacteristic() { Id = 3, ProductId = 3, Name = "Material", Value = "Polyester" },
+            new ProductCharacteristic() { Id = 4, ProductId = 4, Name = "Material", Value = "Nylon" },
+            new ProductCharacteristic() { Id = 5, ProductId = 5, Name = "Material", Value = "Cotton" },
+            new ProductCharacteristic() { Id = 6, ProductId = 6, Name = "Material", Value = "Denim" },
+            new ProductCharacteristic() { Id = 7, ProductId = 7, Name = "Material", Value = "Leather" },
+            new ProductCharacteristic() { Id = 8, ProductId = 8, Name = "Brand", Value = "Victoria`s Secret" },
+            new ProductCharacteristic() { Id = 9, ProductId = 9, Name = "Material", Value = "Nylon" },
+            new ProductCharacteristic() { Id = 10, ProductId = 10, Name = "Material", Value = "Nylon" },
+            new ProductCharacteristic() { Id = 11, ProductId = 11, Name = "Brand", Value = "Guess" },
+            new ProductCharacteristic() { Id = 12, ProductId = 12, Name = "Brand", Value = "Nike" },
+            new ProductCharacteristic() { Id = 13, ProductId = 13, Name = "Brand", Value = "Tom Ford" },
+            new ProductCharacteristic() { Id = 14, ProductId = 14, Name = "Brand", Value = "Tom Ford" },
+            new ProductCharacteristic() { Id = 15, ProductId = 15, Name = "Brand", Value = "Guess" },
+            new ProductCharacteristic() { Id = 16, ProductId = 16, Name = "Material", Value = "Cotton" },
+            new ProductCharacteristic() { Id = 17, ProductId = 17, Name = "Brand", Value = "Green Hill" },
+            new ProductCharacteristic() { Id = 18, ProductId = 18, Name = "Brand", Value = "Adidas" },
+            new ProductCharacteristic() { Id = 19, ProductId = 19, Name = "Brand", Value = "Victoria`s Secret" },
+            new ProductCharacteristic() { Id = 20, ProductId = 20, Name = "Brand", Value = "ChinaTown" }
+            );
+
+        // Set of StorageItems
+        modelBuilder.Entity<StorageItem>().HasData(
+            new StorageItem() { Id = 1, ProductId = 1, Amount = 35 },
+            new StorageItem() { Id = 2, ProductId = 2, Amount = 150 },
+            new StorageItem() { Id = 3, ProductId = 3, Amount = 50 },
+            new StorageItem() { Id = 4, ProductId = 4, Amount = 47 },
+            new StorageItem() { Id = 5, ProductId = 5, Amount = 13 },
+            new StorageItem() { Id = 6, ProductId = 6, Amount = 259 },
+            new StorageItem() { Id = 7, ProductId = 7, Amount = 67 },
+            new StorageItem() { Id = 8, ProductId = 8, Amount = 50 },
+            new StorageItem() { Id = 9, ProductId = 9, Amount = 45 },
+            new StorageItem() { Id = 10, ProductId = 10, Amount = 156 },
+            new StorageItem() { Id = 11, ProductId = 11, Amount = 69 },
+            new StorageItem() { Id = 12, ProductId = 12, Amount = 645 },
+            new StorageItem() { Id = 13, ProductId = 13, Amount = 76 },
+            new StorageItem() { Id = 14, ProductId = 14, Amount = 45 },
+            new StorageItem() { Id = 15, ProductId = 15, Amount = 213 },
+            new StorageItem() { Id = 16, ProductId = 16, Amount = 56 },
+            new StorageItem() { Id = 17, ProductId = 17, Amount = 75 },
+            new StorageItem() { Id = 18, ProductId = 18, Amount = 56 },
+            new StorageItem() { Id = 19, ProductId = 19, Amount = 34 },
+            new StorageItem() { Id = 20, ProductId = 20, Amount = 43 }
+            );
 
         // Set of Storage will be automatically created
-
-        // Set of Customers
-        modelBuilder.Entity<Customer>().HasData(
-            new Customer() { Id = 1, Login = "heidrich@me.com", Name = "Adelyn", Surname = "Sawyer", Password = "9*TeG*vmg1%PKnOb", BirthDay = new DateOnly(2000, 11, 13) },
-            new Customer() { Id = 2, Login = "mcrawfor@mac.com", Name = "Ernest", Surname = "Duke", Password = "Dm8-k&Qov@*N+9pw", BirthDay = new DateOnly(2003, 9, 25) },
-            new Customer() { Id = 3, Login = "attwood@optonline.net", Name = "Nathen", Surname = "Becker", Password = "J8=WHk7IvVe1IWfZ", BirthDay = new DateOnly(2005, 7, 2) },
-            new Customer() { Id = 4, Login = "aegreene@optonline.net", Name = "Keyon", Surname = "Snyder", Password = "AQnNNu?43i557vdV", BirthDay = new DateOnly(1984, 8, 17) },
-            new Customer() { Id = 5, Login = "ralamosm@comcast.net", Name = "Kyan", Surname = "Bray", Password = "90OWn8pd=2c5ba_m", BirthDay = new DateOnly(1984, 7, 12) },
-            new Customer() { Id = 6, Login = "miami@aol.com", Name = "Enzo", Surname = "Costa", Password = "1HwyNX^D5lt1&xe3", BirthDay = new DateOnly(1992, 4, 2) },
-            new Customer() { Id = 7, Login = "aegreene@me.com", Name = "Janae", Surname = "Brennan", Password = "dKtG3ZgF", BirthDay = new DateOnly(1983, 10, 31) },
-            new Customer() { Id = 8, Login = "nasor@aol.com", Name = "Branson", Surname = "Vazquez", Password = "4+729dx8", BirthDay = new DateOnly(1987, 5, 25) },
-            new Customer() { Id = 9, Login = "epeeist@att.net", Name = "Jairo", Surname = "Graves", Password = "rfB5vO6k", BirthDay = new DateOnly(1999, 11, 2) },
-            new Customer() { Id = 10, Login = "jdray@icloud.com", Name = "Paula", Surname = "Giles", Password = "0ONy2LUn", BirthDay = new DateOnly(1992, 6, 22) }
-            );
 
         // Set of PaymentConfig
         modelBuilder.Entity<PaymentConfig>().HasData(
@@ -110,6 +142,20 @@ public static class SeedData
             new PaymentConfig() { CustomerId = 8, Type = "Visa" },
             new PaymentConfig() { CustomerId = 9, Type = "Visa" },
             new PaymentConfig() { CustomerId = 10, Type = "Visa" }
+            );
+
+        // Set of Customers
+        modelBuilder.Entity<Customer>().HasData(
+            new Customer() { Id = 1, PaymentConfigId = 1, Login = "heidrich@me.com", Name = "Adelyn", Surname = "Sawyer", Password = "9*TeG*vmg1%PKnOb", BirthDay = new DateOnly(2000, 11, 13) },
+            new Customer() { Id = 2, PaymentConfigId = 1, Login = "mcrawfor@mac.com", Name = "Ernest", Surname = "Duke", Password = "Dm8-k&Qov@*N+9pw", BirthDay = new DateOnly(2003, 9, 25) },
+            new Customer() { Id = 3, PaymentConfigId = 1, Login = "attwood@optonline.net", Name = "Nathen", Surname = "Becker", Password = "J8=WHk7IvVe1IWfZ", BirthDay = new DateOnly(2005, 7, 2) },
+            new Customer() { Id = 4, PaymentConfigId = 1, Login = "aegreene@optonline.net", Name = "Keyon", Surname = "Snyder", Password = "AQnNNu?43i557vdV", BirthDay = new DateOnly(1984, 8, 17) },
+            new Customer() { Id = 5, PaymentConfigId = 1, Login = "ralamosm@comcast.net", Name = "Kyan", Surname = "Bray", Password = "90OWn8pd=2c5ba_m", BirthDay = new DateOnly(1984, 7, 12) },
+            new Customer() { Id = 6, PaymentConfigId = 2, Login = "miami@aol.com", Name = "Enzo", Surname = "Costa", Password = "1HwyNX^D5lt1&xe3", BirthDay = new DateOnly(1992, 4, 2) },
+            new Customer() { Id = 7, PaymentConfigId = 2, Login = "aegreene@me.com", Name = "Janae", Surname = "Brennan", Password = "dKtG3ZgF", BirthDay = new DateOnly(1983, 10, 31) },
+            new Customer() { Id = 8, PaymentConfigId = 2, Login = "nasor@aol.com", Name = "Branson", Surname = "Vazquez", Password = "4+729dx8", BirthDay = new DateOnly(1987, 5, 25) },
+            new Customer() { Id = 9, PaymentConfigId = 2, Login = "epeeist@att.net", Name = "Jairo", Surname = "Graves", Password = "rfB5vO6k", BirthDay = new DateOnly(1999, 11, 2) },
+            new Customer() { Id = 10, PaymentConfigId = 2, Login = "jdray@icloud.com", Name = "Paula", Surname = "Giles", Password = "0ONy2LUn", BirthDay = new DateOnly(1992, 6, 22) }
             );
 
         // Set of Orders
@@ -128,16 +174,16 @@ public static class SeedData
 
         // Set of Checks
         modelBuilder.Entity<Check>().HasData(
-            new Check() { OrderId = 1 },
-            new Check() { OrderId = 2 },
-            new Check() { OrderId = 3 },
-            new Check() { OrderId = 4 },
-            new Check() { OrderId = 5 },
-            new Check() { OrderId = 6 },
-            new Check() { OrderId = 7 },
-            new Check() { OrderId = 8 },
-            new Check() { OrderId = 9 },
-            new Check() { OrderId = 10 }
+            new Check() { OrderId = 1 , Id = 1 },
+            new Check() { OrderId = 2 , Id = 2 },
+            new Check() { OrderId = 3 , Id = 3 },
+            new Check() { OrderId = 4 , Id = 4 },
+            new Check() { OrderId = 5 , Id = 5 },
+            new Check() { OrderId = 6 , Id = 6 },
+            new Check() { OrderId = 7 , Id = 7 },
+            new Check() { OrderId = 8 , Id = 8 },
+            new Check() { OrderId = 9 , Id = 9 },
+            new Check() { OrderId = 10, Id = 10 }
             );
 
         // Set of Carts
