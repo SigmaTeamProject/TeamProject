@@ -17,6 +17,5 @@ public class StorageItemConfigurations: IEntityTypeConfiguration<StorageItem>
         builder.HasMany(item => item.Orders)
             .WithMany(order => order.Items);
         builder.ToTable("StorageItems");
-        builder.HasKey(p=>p.Id);
     }
 }
