@@ -12,14 +12,14 @@ using DAL.Repositry;
 
 namespace Application.Commands.Auth.Login
 {
-    public class IdentityCommandHandler : IRequestHandler<LoginCommand, (CustomerModel, string)>
+    public class IdentityCommandHandler : IRequestHandler<LoginCommand,(CustomerModel, string)>
     {
         private readonly IRepository<Customer> _repository;
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
         private readonly SymmetricSecurityKey _key;
 
-        public IdentityCommandHandler(IMapper mapper, IRepository<Customer> repository, IConfiguration configuration)
+        public IdentityCommandHandler(IMapper mapper,IRepository<Customer> repository,IConfiguration configuration)
         {
             _repository = repository;
             _mapper = mapper;
@@ -27,31 +27,31 @@ namespace Application.Commands.Auth.Login
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:Secret"]!));
         }
 
-        public async Task<(CustomerModel, string)> Handle(LoginCommand request, CancellationToken cancellationToken)
+        public async Task<(CustomerModel, string)> Handle(LoginCommand request,CancellationToken cancellationToken)
         {
             var customer = await _repository.FirstOrDefaultAsync(customer =>
-                customer.Login == request.Login && 
-                BCrypt.Net.BCrypt.Verify(customer.Password, request.Password,false,BCrypt.Net.HashType.SHA384));
-        
+                customer.Login == request.Login &&
+                BCrypt.Net.BCrypt.Verify(customer.Password,request.Password,false,BCrypt.Net.HashType.SHA384));
+
             var claims = new List<Claim>
             {
-             //   new Claim(JwtRegisteredClaimNames.Sub, customer.Id),
+                //   new Claim(JwtRegisteredClaimNames.Sub, customer.CustomerId),
                 //new Claim(ClaimTypes.Role, customer.Roles.First().ToString()!)
             };
-        
-            var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
-        
+
+            var credentials = new SigningCredentials(_key,SecurityAlgorithms.HmacSha512Signature);
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.Now.AddMinutes(60),
                 SigningCredentials = credentials
             };
-        
+
             var tokenHandler = new JwtSecurityTokenHandler();
-        
+
             var token = tokenHandler.CreateToken(tokenDescriptor);
-        
+
             return (_mapper.Map<CustomerModel>(customer), tokenHandler.WriteToken(token));
         }
     }

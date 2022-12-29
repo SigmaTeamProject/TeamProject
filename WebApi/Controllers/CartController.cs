@@ -20,7 +20,7 @@ namespace WebApi.Controllers
             _mapper = mapper;
         }
 
-        [HttpPut]
+        [HttpPut("add")]
         public async Task<ActionResult> AddProductToCart([FromBody] AddInCartProductDto productToAdd)
         {
             var command = _mapper.Map<AddProductInCartCommand>(productToAdd);

@@ -23,7 +23,7 @@ public class CustomerConfigurations : IEntityTypeConfiguration<Customer>
         builder.HasOne(p => p.PaymentConfig)
             .WithOne(p => p.Customer)
             .HasForeignKey<PaymentConfig>(p => p.Id);
-        builder.HasOne(p => p.Cart).WithOne(p => p.Customer).HasForeignKey<Cart>(p => p.CustomerId);
-
+        builder.HasOne(p => p.Cart).WithOne(p => p.Customer).HasForeignKey<Cart>(p=>p.CustomerId);    
+            
     }
 }
