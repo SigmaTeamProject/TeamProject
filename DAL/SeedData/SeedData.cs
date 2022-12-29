@@ -114,16 +114,16 @@ public static class SeedData
 
         // Set of Orders
         modelBuilder.Entity<Order>().HasData(
-            new Order() { CartId = 1, CustomerId = 1, Id = 1, OrderDate= new DateTime(2022, 10, 13) },
-            new Order() { CartId = 2, CustomerId = 2, Id = 2, OrderDate = new DateTime(2022, 10, 13) },
-            new Order() { CartId = 3, CustomerId = 3, Id = 3, OrderDate = new DateTime(2022, 10, 14) },
-            new Order() { CartId = 4, CustomerId = 4, Id = 4, OrderDate = new DateTime(2022, 10, 15) },
-            new Order() { CartId = 5, CustomerId = 5, Id = 5, OrderDate = new DateTime(2022, 10, 20) },
-            new Order() { CartId = 6, CustomerId = 6, Id = 6, OrderDate = new DateTime(2022, 11, 13) },
-            new Order() { CartId = 7, CustomerId = 7, Id = 7, OrderDate = new DateTime(2022, 11, 30) },
-            new Order() { CartId = 8, CustomerId = 8, Id = 8, OrderDate = new DateTime(2022, 12, 22) },
-            new Order() { CartId = 9, CustomerId = 9, Id = 9, OrderDate = new DateTime(2022, 12, 14) },
-            new Order() { CartId = 10, CustomerId = 10, Id = 10, OrderDate = new DateTime(2022, 12, 13) }
+            new Order() { CustomerId = 1, Id = 1, OrderDate= new DateTime(2022, 10, 13) },
+            new Order() { CustomerId = 2, Id = 2, OrderDate = new DateTime(2022, 10, 13) },
+            new Order() { CustomerId = 3, Id = 3, OrderDate = new DateTime(2022, 10, 14) },
+            new Order() { CustomerId = 4, Id = 4, OrderDate = new DateTime(2022, 10, 15) },
+            new Order() { CustomerId = 5, Id = 5, OrderDate = new DateTime(2022, 10, 20) },
+            new Order() { CustomerId = 6, Id = 6, OrderDate = new DateTime(2022, 11, 13) },
+            new Order() { CustomerId = 7, Id = 7, OrderDate = new DateTime(2022, 11, 30) },
+            new Order() { CustomerId = 8, Id = 8, OrderDate = new DateTime(2022, 12, 22) },
+            new Order() { CustomerId = 9, Id = 9, OrderDate = new DateTime(2022, 12, 14) },
+            new Order() { CustomerId = 10, Id = 10, OrderDate = new DateTime(2022, 12, 13) }
             );
 
         // Set of Checks
