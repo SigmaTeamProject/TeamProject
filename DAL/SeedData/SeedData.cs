@@ -130,6 +130,20 @@ public static class SeedData
 
         // Set of Storage will be automatically created
 
+        // Set of Customers
+        modelBuilder.Entity<Customer>().HasData(
+            new Customer() { Id = 1, Login = "heidrich@me.com", Name = "Adelyn", Surname = "Sawyer", Password = "9*TeG*vmg1%PKnOb", BirthDay = new DateOnly(2000, 11, 13) },
+            new Customer() { Id = 2, Login = "mcrawfor@mac.com", Name = "Ernest", Surname = "Duke", Password = "Dm8-k&Qov@*N+9pw", BirthDay = new DateOnly(2003, 9, 25) },
+            new Customer() { Id = 3, Login = "attwood@optonline.net", Name = "Nathen", Surname = "Becker", Password = "J8=WHk7IvVe1IWfZ", BirthDay = new DateOnly(2005, 7, 2) },
+            new Customer() { Id = 4, Login = "aegreene@optonline.net", Name = "Keyon", Surname = "Snyder", Password = "AQnNNu?43i557vdV", BirthDay = new DateOnly(1984, 8, 17) },
+            new Customer() { Id = 5, Login = "ralamosm@comcast.net", Name = "Kyan", Surname = "Bray", Password = "90OWn8pd=2c5ba_m", BirthDay = new DateOnly(1984, 7, 12) },
+            new Customer() { Id = 6, Login = "miami@aol.com", Name = "Enzo", Surname = "Costa", Password = "1HwyNX^D5lt1&xe3", BirthDay = new DateOnly(1992, 4, 2) },
+            new Customer() { Id = 7, Login = "aegreene@me.com", Name = "Janae", Surname = "Brennan", Password = "dKtG3ZgF", BirthDay = new DateOnly(1983, 10, 31) },
+            new Customer() { Id = 8, Login = "nasor@aol.com", Name = "Branson", Surname = "Vazquez", Password = "4+729dx8", BirthDay = new DateOnly(1987, 5, 25) },
+            new Customer() { Id = 9, Login = "epeeist@att.net", Name = "Jairo", Surname = "Graves", Password = "rfB5vO6k", BirthDay = new DateOnly(1999, 11, 2) },
+            new Customer() { Id = 10, Login = "jdray@icloud.com", Name = "Paula", Surname = "Giles", Password = "0ONy2LUn", BirthDay = new DateOnly(1992, 6, 22) }
+            );
+
         // Set of PaymentConfig
         modelBuilder.Entity<PaymentConfig>().HasData(
             new PaymentConfig() { CustomerId = 1, Type = "MasterCard" },
@@ -142,20 +156,6 @@ public static class SeedData
             new PaymentConfig() { CustomerId = 8, Type = "Visa" },
             new PaymentConfig() { CustomerId = 9, Type = "Visa" },
             new PaymentConfig() { CustomerId = 10, Type = "Visa" }
-            );
-
-        // Set of Customers
-        modelBuilder.Entity<Customer>().HasData(
-            new Customer() { Id = 1, PaymentConfigId = 1, Login = "heidrich@me.com", Name = "Adelyn", Surname = "Sawyer", Password = "9*TeG*vmg1%PKnOb", BirthDay = new DateOnly(2000, 11, 13) },
-            new Customer() { Id = 2, PaymentConfigId = 1, Login = "mcrawfor@mac.com", Name = "Ernest", Surname = "Duke", Password = "Dm8-k&Qov@*N+9pw", BirthDay = new DateOnly(2003, 9, 25) },
-            new Customer() { Id = 3, PaymentConfigId = 1, Login = "attwood@optonline.net", Name = "Nathen", Surname = "Becker", Password = "J8=WHk7IvVe1IWfZ", BirthDay = new DateOnly(2005, 7, 2) },
-            new Customer() { Id = 4, PaymentConfigId = 1, Login = "aegreene@optonline.net", Name = "Keyon", Surname = "Snyder", Password = "AQnNNu?43i557vdV", BirthDay = new DateOnly(1984, 8, 17) },
-            new Customer() { Id = 5, PaymentConfigId = 1, Login = "ralamosm@comcast.net", Name = "Kyan", Surname = "Bray", Password = "90OWn8pd=2c5ba_m", BirthDay = new DateOnly(1984, 7, 12) },
-            new Customer() { Id = 6, PaymentConfigId = 2, Login = "miami@aol.com", Name = "Enzo", Surname = "Costa", Password = "1HwyNX^D5lt1&xe3", BirthDay = new DateOnly(1992, 4, 2) },
-            new Customer() { Id = 7, PaymentConfigId = 2, Login = "aegreene@me.com", Name = "Janae", Surname = "Brennan", Password = "dKtG3ZgF", BirthDay = new DateOnly(1983, 10, 31) },
-            new Customer() { Id = 8, PaymentConfigId = 2, Login = "nasor@aol.com", Name = "Branson", Surname = "Vazquez", Password = "4+729dx8", BirthDay = new DateOnly(1987, 5, 25) },
-            new Customer() { Id = 9, PaymentConfigId = 2, Login = "epeeist@att.net", Name = "Jairo", Surname = "Graves", Password = "rfB5vO6k", BirthDay = new DateOnly(1999, 11, 2) },
-            new Customer() { Id = 10, PaymentConfigId = 2, Login = "jdray@icloud.com", Name = "Paula", Surname = "Giles", Password = "0ONy2LUn", BirthDay = new DateOnly(1992, 6, 22) }
             );
 
         // Set of Orders
@@ -174,16 +174,16 @@ public static class SeedData
 
         // Set of Checks
         modelBuilder.Entity<Check>().HasData(
-            new Check() { OrderId = 1 , Id = 1 },
-            new Check() { OrderId = 2 , Id = 2 },
-            new Check() { OrderId = 3 , Id = 3 },
-            new Check() { OrderId = 4 , Id = 4 },
-            new Check() { OrderId = 5 , Id = 5 },
-            new Check() { OrderId = 6 , Id = 6 },
-            new Check() { OrderId = 7 , Id = 7 },
-            new Check() { OrderId = 8 , Id = 8 },
-            new Check() { OrderId = 9 , Id = 9 },
-            new Check() { OrderId = 10, Id = 10 }
+            new Check() { OrderId = 1 },
+            new Check() { OrderId = 2 },
+            new Check() { OrderId = 3 },
+            new Check() { OrderId = 4 },
+            new Check() { OrderId = 5 },
+            new Check() { OrderId = 6 },
+            new Check() { OrderId = 7 },
+            new Check() { OrderId = 8 },
+            new Check() { OrderId = 9 },
+            new Check() { OrderId = 10 }
             );
 
         // Set of Carts
