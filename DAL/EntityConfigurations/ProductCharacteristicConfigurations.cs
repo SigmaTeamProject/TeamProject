@@ -11,10 +11,10 @@ public class ProductCharacteristicConfigurations : IEntityTypeConfiguration<Prod
     {
         builder.ToTable("ProductCharacteristics");
         builder.HasKey(p => p.Id);
-       // builder.Property(p => p.ProductId).IsRequired();
         builder.Property(p => p.Name).IsRequired().HasMaxLength(25);
         builder.Property(p => p.Value).IsRequired();
         builder.HasOne(characteristic => characteristic.Product)
-            .WithMany(product => product.Characteristics);
+            .WithMany(product => product.Characteristics)
+            .HasForeignKey(characteristic => characteristic.ProductId);
     }
 }
