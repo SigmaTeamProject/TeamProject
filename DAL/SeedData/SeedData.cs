@@ -35,7 +35,7 @@ public static class SeedData
             );
 
         // Set of ProductCharacteristic
-        /*modelBuilder.Entity<ProductCharacteristic>().HasData(
+        modelBuilder.Entity<ProductCharacteristic>().HasData(
             new ProductCharacteristic() { ProductId = 1, Name = "Material", Value = "Wool" },
             new ProductCharacteristic() { ProductId = 2, Name = "Brand", Value = "ChinaTown" },
             new ProductCharacteristic() { ProductId = 3, Name = "Material", Value = "Polyester" },
@@ -56,10 +56,10 @@ public static class SeedData
             new ProductCharacteristic() { ProductId = 18, Name = "Brand", Value = "Adidas" },
             new ProductCharacteristic() { ProductId = 19, Name = "Brand", Value = "Victoria`s Secret" },
             new ProductCharacteristic() { ProductId = 20, Name = "Brand", Value = "ChinaTown" }
-            );*/
+            );
 
         // Set of StorageItems
-        /*modelBuilder.Entity<StorageItem>().HasData(
+        modelBuilder.Entity<StorageItem>().HasData(
             new StorageItem() { ProductId = 1, Amount = 35 },
             new StorageItem() { ProductId = 2, Amount = 150 },
             new StorageItem() { ProductId = 3, Amount = 50 },
@@ -80,7 +80,7 @@ public static class SeedData
             new StorageItem() { ProductId = 18, Amount = 56 },
             new StorageItem() { ProductId = 19, Amount = 34 },
             new StorageItem() { ProductId = 20, Amount = 43 }
-            );*/
+            );
 
         // Set of Storage will be automatically created
 
