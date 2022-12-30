@@ -10,8 +10,8 @@ public class ApplicationDbContext : DbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
+        
     }
-
     public DbSet<Product> Products { get; set; }
     public DbSet<ProductCharacteristic> ProductCharacteristics { get; set; }
     public DbSet<Order> Orders { get; set; }
@@ -21,7 +21,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Customer> Customers { get; set; }
     public DbSet<PaymentConfig> PaymentConfigs { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         var configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
@@ -31,7 +31,7 @@ public class ApplicationDbContext : DbContext
         //var connectionString = "Host=localhost;Username=aloshaprokopenko5;Password=787898;Database=sigma_db";
         optionsBuilder.UseSqlServer(connectionString).EnableSensitiveDataLogging();
         //optionsBuilder.UseNpgsql(connectionString).EnableSensitiveDataLogging();
-    }
+    }*/
 
     protected override void ConfigureConventions(ModelConfigurationBuilder builder)
     {
@@ -53,5 +53,5 @@ public class ApplicationDbContext : DbContext
 
         SeedData.SeedData.Seed(modelBuilder);
     }
-
+    
 }

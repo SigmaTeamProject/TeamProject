@@ -1,7 +1,13 @@
+using System.Reflection;
+using Application.Commands.CartCommands.AddProduct;
+using Application.Extensions;
 using Application.Services.Implementation;
 using Application.Services.Interfaces;
 using DAL.Context;
+using DAL.Repository;
+using DAL.Repositry;
 using Data;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using NLog;
@@ -13,7 +19,6 @@ builder.Services.AddSingleton<ILoggerManager,LoggerManager>();
 builder.Services.AddControllers();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddDbContext<ApplicationDbContext>();
 
 builder.Services.AddCors(options =>
 {
@@ -29,6 +34,23 @@ builder.Services.AddAuth(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwagger();
+builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddDbContext<ApplicationDbContext>(
+    optionsBuilder => optionsBuilder
+        .UseNpgsql("Host=localhost;Username=aloshaprokopenko5;Password=787898;Database=sigma_db")
+        .EnableSensitiveDataLogging()
+    );
+builder.Services.AddMediator();
+builder.Services.AddEntityFrameworkNpgsql();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddScoped<IRepository<Customer>, Repository<Customer>>();
+builder.Services.AddScoped<IRepository<Order>, Repository<Order>>();
+builder.Services.AddScoped<IRepository<Product>, Repository<Product>>();
+builder.Services.AddScoped<IRepository<Cart>, Repository<Cart>>();
+builder.Services.AddScoped<IRepository<StorageItem>, Repository<StorageItem>>();
+builder.Services.AddScoped<IRepository<ProductCharacteristic>, Repository<ProductCharacteristic>>();
+builder.Services.AddScoped<IRepository<Check>, Repository<Check>>();
+builder.Services.AddScoped<IRepository<PaymentConfig>, Repository<PaymentConfig>>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

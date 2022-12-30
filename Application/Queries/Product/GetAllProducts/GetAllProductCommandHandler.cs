@@ -3,7 +3,6 @@ using AutoMapper;
 using DAL.Repositry;
 using Data;
 using MediatR;
-using Persistence.Repository;
 
 namespace Application.Queries.Product.GetAllProducts;
 
