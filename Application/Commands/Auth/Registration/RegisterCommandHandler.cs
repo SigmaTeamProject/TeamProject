@@ -3,12 +3,8 @@ using AutoMapper;
 using DAL.Repositry;
 using Data;
 using MediatR;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using Application.Commands.Auth.JWT;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Commands.Auth.Registration
 {
@@ -31,18 +27,26 @@ namespace Application.Commands.Auth.Registration
             {
                 throw new Exception("Passwords don't match");
             }
-
-            if (request.BirthDate == null)
+            if (await IsRegister(request.Login))
             {
-                request.BirthDate = DateOnly.Parse("2022-01-01");
+                throw new ArgumentException("User with this id already registered!");
             }
+            request.BirthDate ??= DateOnly.Parse("2022-01-01");
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
             request.Password = passwordHash;
+            
             var customer = await _repository.AddAsync(_mapper.Map<Customer>(request));
             customer.Role = "Customer";
             
             await _repository.SaveChangesAsync();
             return (_mapper.Map<CustomerModel>(customer), _tokenManager.GenerateToken(customer));
+        }
+
+        private async Task<bool> IsRegister(string login)
+        {
+            var customer = await _repository.Query()
+                .FirstOrDefaultAsync(customer => customer.Login == login);
+            return customer != null;
         }
     }
 }
