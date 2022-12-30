@@ -1,15 +1,16 @@
-﻿using System.Data.Entity;
 using Application.Models;
 using AutoMapper;
 using Data;
 using MediatR;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Application.Extensions;
 using DAL.Repositry;
 using Application.Commands.Auth.JWT;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Commands.Auth.Login
 {
