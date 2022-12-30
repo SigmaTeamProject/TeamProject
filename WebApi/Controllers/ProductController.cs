@@ -1,8 +1,10 @@
+using Application.Commands.Product;
+using Application.Commands.Product.Update;
+using Application.Commands.Product.UpdateProductCharacteristic;
 using Application.Dtos;
 using Application.Models;
 using Application.Queries.Product.GetAllProducts;
 using Application.Queries.Product.GetProductById;
-using Application.Queries.Product.Update;
 using AutoMapper;
 using Data;
 using MediatR;
@@ -22,7 +24,7 @@ public class ProductController : BaseController
         _mediator = mediator;
     }
     [HttpGet("{id:int}")]
-    public async Task<ActionResult> GetProductById(int id)
+    public async Task<ActionResult> GetProductById(int id) //works
     {
         var command = new GetProductByIdQuery
         {
@@ -32,7 +34,7 @@ public class ProductController : BaseController
     }
 
     [HttpGet]
-    public async Task<ActionResult> GetAllProducts()
+    public async Task<ActionResult> GetAllProducts() //works
     {
         var command = new GetAllProductQuery
         {
@@ -41,13 +43,20 @@ public class ProductController : BaseController
         return Ok(await _mediator.Send(command));
     }
     [HttpPost]
-    public async Task<ActionResult> Update(ProductDto product)
+    public async Task<ActionResult> Update(ProductDto product) //works
     {
-        var command = new CommandQuery
+        var command = new UpdateProductCommand
         {
             Product = product
         };
         return Ok(await _mediator.Send(command));
     }
 
+    [HttpPost("characteristic")]
+    public async Task<ActionResult> UpdateProductCharacteristics
+        (ProductCharacteristicDto productCharacteristicDto) //works
+    {
+        var command = _mapper.Map<UpdateProductCharacteristicCommand>(productCharacteristicDto);
+        return Ok(await _mediator.Send(command));
+    }
 }
