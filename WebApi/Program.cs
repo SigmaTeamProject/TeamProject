@@ -1,4 +1,5 @@
 using System.Reflection;
+using Application.Commands.Auth.JWT;
 using Application.Commands.CartCommands.AddProduct;
 using Application.Extensions;
 using Application.Services.Implementation;
@@ -37,11 +38,11 @@ builder.Services.AddSwagger();
 builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddDbContext<ApplicationDbContext>(
     optionsBuilder => optionsBuilder
-        .UseNpgsql("Host=localhost;Username=aloshaprokopenko5;Password=787898;Database=sigma_db")
+        .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")!, b => b.MigrationsAssembly("WebApi"))
         .EnableSensitiveDataLogging()
     );
 builder.Services.AddMediator();
-builder.Services.AddEntityFrameworkNpgsql();
+//builder.Services.AddEntityFrameworkNpgsql();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IRepository<Customer>, Repository<Customer>>();
 builder.Services.AddScoped<IRepository<Order>, Repository<Order>>();
@@ -51,11 +52,12 @@ builder.Services.AddScoped<IRepository<StorageItem>, Repository<StorageItem>>();
 builder.Services.AddScoped<IRepository<ProductCharacteristic>, Repository<ProductCharacteristic>>();
 builder.Services.AddScoped<IRepository<Check>, Repository<Check>>();
 builder.Services.AddScoped<IRepository<PaymentConfig>, Repository<PaymentConfig>>();
+builder.Services.AddScoped<ITokenManager, TokenManager>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
-AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+//AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 var app = builder.Build();
 
 LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));

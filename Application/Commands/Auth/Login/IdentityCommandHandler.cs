@@ -9,6 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using DAL.Repositry;
+using Application.Commands.Auth.JWT;
 
 namespace Application.Commands.Auth.Login
 {
@@ -16,37 +17,34 @@ namespace Application.Commands.Auth.Login
     {
         private readonly IRepository<Customer> _repository;
         private readonly IMapper _mapper;
-        private readonly SymmetricSecurityKey _key;
+        private readonly ITokenManager _tokenManager;
 
-        public IdentityCommandHandler(IMapper mapper, IRepository<Customer> repository)
+        public IdentityCommandHandler(IMapper mapper, IRepository<Customer> repository, 
+            ITokenManager tokenManager)
         {
             _repository = repository;
             _mapper = mapper;
-            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("adsf"));
+            _tokenManager = tokenManager;
         }
 
         public async Task<(CustomerModel, string)> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
             var customer = await _repository.FirstOrDefaultAsync(customer =>
-                customer.Login == request.Login && customer.Password == request.Password);
-        
-            var claims = new List<Claim>
+                customer.Login == request.Login);
+
+            if (customer == null)
             {
-                new Claim(JwtRegisteredClaimNames.Sub, customer!.Id.ToString()),
-                new Claim(ClaimTypes.Role, customer.Role!)
-            };
-            
-            var tokenDescriptor = new SecurityTokenDescriptor
+                return (new CustomerModel(), string.Empty);
+            }
+
+            if (!BCrypt.Net.BCrypt.Verify(customer.Password, request.Password))
             {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddMinutes(60)
-            };
+                return (new CustomerModel(), string.Empty);
+            }
+
+            var token = _tokenManager.GenerateToken(customer);
         
-            var tokenHandler = new JwtSecurityTokenHandler();
-        
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-        
-            return (_mapper.Map<CustomerModel>(customer), tokenHandler.WriteToken(token));
+            return (_mapper.Map<CustomerModel>(customer), token);
         }
     }
 }
