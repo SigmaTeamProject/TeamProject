@@ -34,7 +34,7 @@ namespace Application.Commands.CartCommands.AddProduct
             if (storageItem == null) throw new ArgumentNullException();
             if (storageItem.Amount - request.Count < 0) throw new ArgumentException();
 
-            var item = new StorageItem()
+            var item = new CartItem()
             {
                 ProductId = request.ProductId,
                 Amount = request.Count

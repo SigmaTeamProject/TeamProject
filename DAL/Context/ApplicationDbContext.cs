@@ -16,6 +16,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<ProductCharacteristic> ProductCharacteristics { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<Cart> Carts { get; set; }
+    public DbSet<Cart> CartItems { get; set; }
     public DbSet<Check> Checks { get; set; }
     public DbSet<StorageItem> StorageItems { get; set; }
     public DbSet<Customer> Customers { get; set; }

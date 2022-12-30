@@ -11,12 +11,15 @@ namespace Application.Commands.Auth.Registration
     public class RegisterCommandHandler : IRequestHandler<RegisterUserCommand, (CustomerModel, string)>
     {
         private readonly IRepository<Customer> _repository;
+        private readonly IRepository<Cart> _cartRepository;
         private readonly IMapper _mapper;
         private readonly ITokenManager _tokenManager;
 
-        public RegisterCommandHandler(IRepository<Customer> repository, IMapper mapper, ITokenManager tokenManager)
+        public RegisterCommandHandler(IRepository<Customer> repository, IRepository<Cart> cartRepository,
+            IMapper mapper, ITokenManager tokenManager)
         {
             _repository = repository;
+            _cartRepository = cartRepository;
             _mapper = mapper;
             _tokenManager = tokenManager;
         }
@@ -37,8 +40,10 @@ namespace Application.Commands.Auth.Registration
             
             var customer = await _repository.AddAsync(_mapper.Map<Customer>(request));
             customer.Role = "Customer";
-            
             await _repository.SaveChangesAsync();
+
+            await _cartRepository.AddAsync(new Cart() { CustomerId = customer.Id});
+            await _cartRepository.SaveChangesAsync();
             return (_mapper.Map<CustomerModel>(customer), _tokenManager.GenerateToken(customer));
         }
 

@@ -9,7 +9,5 @@ public class CartConfigurations : IEntityTypeConfiguration<Cart>
     public void Configure(EntityTypeBuilder<Cart> builder)
     {
         builder.ToTable("Carts").HasKey(p => p.CustomerId);
-        builder.HasMany(cart => cart.Items)
-            .WithMany(item => item.Carts);
     }
 }
