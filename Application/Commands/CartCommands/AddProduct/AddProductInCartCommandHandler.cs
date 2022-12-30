@@ -26,9 +26,21 @@ namespace Application.Commands.CartCommands.AddProduct
             var userId = request.UserId;
             var cart = await _cartRepository.Query()
                 .Include(cart => cart.Customer)
-                .FirstOrDefaultAsync(cart => cart.Customer!.Id == userId, cancellationToken);
+                .Include(cart => cart.Items)
+                .FirstOrDefaultAsync(cart => cart.Customer!.Id == userId);
 
-            cart.Items.Add(await _storageItemRepository.GetByIdAsync(request.ProductId));
+            var storageItem = await _storageItemRepository.FirstOrDefaultAsync(item => item.ProductId == request.ProductId);
+
+            if (storageItem == null) throw new ArgumentNullException();
+            if (storageItem.Amount - request.Count < 0) throw new ArgumentException();
+
+            var item = new StorageItem()
+            {
+                ProductId = request.ProductId,
+                Amount = request.Count
+            };
+
+            if (cart.Items != null) cart.Items.Add(item);
 
             await _cartRepository.UpdateAsync(cart);
             await _cartRepository.SaveChangesAsync();

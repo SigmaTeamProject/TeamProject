@@ -12,5 +12,4 @@ public class Customer
     public ICollection<Order>? Orders { get; set; } = new List<Order>();
     public DateOnly BirthDay { get; set; }
     public Cart Cart { get; set; }
-    public int CartId { get; set; }
 }

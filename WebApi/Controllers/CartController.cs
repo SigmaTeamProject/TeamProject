@@ -26,7 +26,7 @@ namespace WebApi.Controllers
         public async Task<ActionResult> AddProductToCart([FromBody] AddInCartProductDto productToAdd)
         {
             var command = _mapper.Map<AddProductInCartCommand>(productToAdd);
-            command.UserId = 2;
+            command.UserId = UserId;
             var result = await _mediator.Send(command);
             return Ok(result);
         }
