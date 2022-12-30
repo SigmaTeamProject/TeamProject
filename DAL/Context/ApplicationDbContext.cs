@@ -53,5 +53,4 @@ public class ApplicationDbContext : DbContext
 
         SeedData.SeedData.Seed(modelBuilder);
     }
-    
 }

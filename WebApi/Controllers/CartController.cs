@@ -3,6 +3,7 @@ using Application.Commands.CartCommands.UpdateProduct;
 using Application.Dtos;
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
@@ -21,10 +22,11 @@ namespace WebApi.Controllers
         }
 
         [HttpPut("add")]
+        [Authorize]
         public async Task<ActionResult> AddProductToCart([FromBody] AddInCartProductDto productToAdd)
         {
             var command = _mapper.Map<AddProductInCartCommand>(productToAdd);
-            command.UserId = UserId;
+            command.UserId = 2;
             var result = await _mediator.Send(command);
             return Ok(result);
         }

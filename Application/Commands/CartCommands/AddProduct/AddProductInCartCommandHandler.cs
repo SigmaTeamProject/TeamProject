@@ -1,9 +1,9 @@
-﻿using System.Data.Entity;
-using Application.Models;
+﻿using Application.Models;
 using AutoMapper;
 using Data;
 using MediatR;
 using DAL.Repositry;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Commands.CartCommands.AddProduct
 {
