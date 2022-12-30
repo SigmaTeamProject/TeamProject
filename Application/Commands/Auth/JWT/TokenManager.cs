@@ -25,10 +25,9 @@ namespace Application.Commands.Auth.JWT
 
         public string GenerateToken(Customer customer)
         {
-            var a = _configuration["JWT:Secret"]!;
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, customer.Id.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, customer.Id.ToString()),
                 new Claim(ClaimTypes.Role, customer.Role!)
             };
 

@@ -1,5 +1,4 @@
 using Application.Dtos;
-using Application.Queries.Product.Update;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,7 +8,7 @@ public static class ApplicationExtensions
 {
     public static IServiceCollection AddMediator(this IServiceCollection services)
     {
-        //services.AddTransient<IRequestHandler<CommandQuery, ProductDto>, UpdateCommandHandler>();
+        //services.AddTransient<IRequestHandler<UpdateProductCommand, ProductDto>, UpdateProductCommandHandler>();
         return services;
     }
 }
