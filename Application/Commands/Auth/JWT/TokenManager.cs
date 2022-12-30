@@ -15,17 +15,20 @@ namespace Application.Commands.Auth.JWT
     public class TokenManager : ITokenManager
     {
         private readonly SymmetricSecurityKey _key;
+        private readonly IConfiguration _configuration;
 
         public TokenManager(IConfiguration configuration)
         {
+            _configuration = configuration;
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]!));
         }
 
         public string GenerateToken(Customer customer)
         {
+            var a = _configuration["JWT:Secret"]!;
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Email, customer.Login),
+                new Claim(JwtRegisteredClaimNames.Sub, customer.Id.ToString()),
                 new Claim(ClaimTypes.Role, customer.Role!)
             };
 
