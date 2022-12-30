@@ -38,7 +38,7 @@ namespace Application.Commands.Auth.Login
                 return (new CustomerModel(), string.Empty);
             }
 
-            if (!BCrypt.Net.BCrypt.Verify(customer.Password, request.Password))
+            if (!BCrypt.Net.BCrypt.Verify(request.Password, customer.Password))
             {
                 return (new CustomerModel(), string.Empty);
             }

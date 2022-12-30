@@ -36,12 +36,18 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwagger();
 builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddDbContext<ApplicationDbContext>(
+/*builder.Services.AddDbContext<ApplicationDbContext>(
     optionsBuilder => optionsBuilder
         .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")!, b => b.MigrationsAssembly("WebApi"))
         .EnableSensitiveDataLogging()
-    );
+    );*/
+builder.Services.AddDbContext<ApplicationDbContext>(
+    optionsBuilder => optionsBuilder
+        .UseNpgsql("Host=localhost;Username=aloshaprokopenko5;Password=787898;Database=sigma_db")
+        .EnableSensitiveDataLogging()
+);
 builder.Services.AddMediator();
+builder.Services.AddScoped<ITokenManager, TokenManager>();
 //builder.Services.AddEntityFrameworkNpgsql();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IRepository<Customer>, Repository<Customer>>();

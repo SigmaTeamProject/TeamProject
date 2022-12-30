@@ -1,5 +1,4 @@
-﻿using Application.Commands.Auth.JWT;
-using Application.Models;
+﻿using Application.Models;
 using AutoMapper;
 using DAL.Repositry;
 using Data;
@@ -16,38 +15,50 @@ namespace Application.Commands.Auth.Registration
     {
         private readonly IRepository<Customer> _repository;
         private readonly IMapper _mapper;
-        private readonly ITokenManager _tokenManager;
+        private readonly SymmetricSecurityKey _key;
 
-        public RegisterCommandHandler(IRepository<Customer> repository, 
-            IMapper mapper, ITokenManager tokenManager)
+        public RegisterCommandHandler(IRepository<Customer> repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
-            _tokenManager = tokenManager;
+            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("adsf"));
         }
 
         public async Task<(CustomerModel, string)> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
             if (request.Password != request.ConfirmPassword)
             {
-                return (new CustomerModel(), string.Empty);
+                throw new Exception("Passwords don't match");
             }
 
             if (request.BirthDate == null)
             {
                 request.BirthDate = DateOnly.MaxValue;
             }
-
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
-            request.Password = passwordHash;
-
-            var customer = await _repository.AddAsync(_mapper.Map<Customer>(request));
-            customer.Role = "Customer"; // тут треба би це зробити дефолтним значенням в класі Customer
-
-            var token = _tokenManager.GenerateToken(customer);
         
+            request.Password = passwordHash;
+        
+            var customer = await _repository.AddAsync(_mapper.Map<Customer>(request));
+            customer.Role = "Customer";
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Email, customer.Login),
+                new Claim(ClaimTypes.Role, customer.Role!)
+            };
+            
+        
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.Now.AddMinutes(60)
+            };
+        
+            var tokenHandler = new JwtSecurityTokenHandler();
+        
+            var token = tokenHandler.CreateToken(tokenDescriptor);
             await _repository.SaveChangesAsync();
-            return (_mapper.Map<CustomerModel>(customer), token);
+            return (_mapper.Map<CustomerModel>(customer), tokenHandler.WriteToken(token));
         }
     }
 }
