@@ -1,4 +1,4 @@
-﻿using Application.Models;
+using Application.Models;
 using AutoMapper;
 using Data;
 using MediatR;
@@ -8,6 +8,7 @@ using System.Security.Claims;
 using System.Text;
 using Application.Extensions;
 using DAL.Repositry;
+using Application.Commands.Auth.JWT;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,38 +18,34 @@ namespace Application.Commands.Auth.Login
     {
         private readonly IRepository<Customer> _repository;
         private readonly IMapper _mapper;
+        private readonly ITokenManager _tokenManager;
 
-        public IdentityCommandHandler(IMapper mapper, IRepository<Customer> repository)
+        public IdentityCommandHandler(IMapper mapper, IRepository<Customer> repository, 
+            ITokenManager tokenManager)
         {
             _repository = repository;
             _mapper = mapper;
+            _tokenManager = tokenManager;
         }
 
         public async Task<(CustomerModel, string)> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
-            var customer = await _repository.Query().FirstOrDefaultAsync(customer =>
-                customer.Login == request.Login && customer.Password == request.Password);
-        
-            var claims = new List<Claim>
+            var customer = await _repository.FirstOrDefaultAsync(customer =>
+                customer.Login == request.Login);
+
+            if (customer == null)
             {
-                new Claim(JwtRegisteredClaimNames.Sub, customer!.Id.ToString()),
-                new Claim(ClaimTypes.Role, customer.Role!)
-            };
-            var credentials = new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha512Signature);
-            var tokenDescriptor = new SecurityTokenDescriptor
+                return (new CustomerModel(), string.Empty);
+            }
+
+            if (!BCrypt.Net.BCrypt.Verify(request.Password, customer.Password))
             {
-                Issuer = AuthOptions.ISSUER,
-                Audience = AuthOptions.AUDIENCE,
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddMinutes(60),
-                SigningCredentials = credentials
-            };
+                return (new CustomerModel(), string.Empty);
+            }
+
+            var token = _tokenManager.GenerateToken(customer);
         
-            var tokenHandler = new JwtSecurityTokenHandler();
-        
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-        
-            return (_mapper.Map<CustomerModel>(customer), tokenHandler.WriteToken(token));
+            return (_mapper.Map<CustomerModel>(customer), token);
         }
     }
 }
