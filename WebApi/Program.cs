@@ -5,17 +5,11 @@ using Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using NLog;
-
-var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddSingleton<ILoggerManager, LoggerManager>();
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using Persistence.Repository;
-using System.Text;
 using WebApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSingleton<ILoggerManager,LoggerManager>();
 builder.Services.AddControllers();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -28,7 +22,7 @@ builder.Services.AddCors(options =>
         policy.AllowAnyHeader();
         policy.AllowAnyMethod();
         policy.AllowAnyOrigin();
-    }); 
+    });
 });
 
 builder.Services.AddAuth(builder.Configuration);
@@ -39,10 +33,10 @@ builder.Services.AddSwagger();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
-AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior",true);
 var app = builder.Build();
 
-LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
+LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(),"/nlog.config"));
 
 if (app.Environment.IsDevelopment())
 {
@@ -50,7 +44,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseRequestLocalization(opts => {
+app.UseRequestLocalization(opts =>
+{
     opts.AddSupportedCultures("en-US")
         .AddSupportedUICultures("en-US")
         .SetDefaultCulture("en-US");
@@ -73,3 +68,4 @@ catch (Exception e)
     Console.WriteLine(e);
 }
 app.Run();
+

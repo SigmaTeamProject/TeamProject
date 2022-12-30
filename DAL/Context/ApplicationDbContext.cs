@@ -8,10 +8,10 @@ namespace DAL.Context;
 
 public class ApplicationDbContext : DbContext
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options):base(options)
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
     }
-    
+
     public DbSet<Product> Products { get; set; }
     public DbSet<ProductCharacteristic> ProductCharacteristics { get; set; }
     public DbSet<Order> Orders { get; set; }
@@ -27,9 +27,10 @@ public class ApplicationDbContext : DbContext
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json")
             .Build();
-        //var connectionString = configuration.GetConnectionString("DefaultConnection");
-        var connectionString = "Host=localhost;Username=aloshaprokopenko5;Password=787898;Database=sigma_db";
-        optionsBuilder.UseNpgsql(connectionString).EnableSensitiveDataLogging();
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
+        //var connectionString = "Host=localhost;Username=aloshaprokopenko5;Password=787898;Database=sigma_db";
+        optionsBuilder.UseSqlServer(connectionString).EnableSensitiveDataLogging();
+        //optionsBuilder.UseNpgsql(connectionString).EnableSensitiveDataLogging();
     }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder builder)
@@ -52,5 +53,5 @@ public class ApplicationDbContext : DbContext
 
         SeedData.SeedData.Seed(modelBuilder);
     }
-    
+
 }
