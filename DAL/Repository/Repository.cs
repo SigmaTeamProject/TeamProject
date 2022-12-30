@@ -4,7 +4,7 @@ using DAL.Repositry;
 using Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace Persistence.Repository;
+namespace DAL.Repository;
 
 public class Repository<TEntity> : IRepository<TEntity> 
     where TEntity : class
@@ -12,10 +12,10 @@ public class Repository<TEntity> : IRepository<TEntity>
     private readonly ApplicationDbContext _dbContext;
     private readonly DbSet<TEntity> _dbSet;
 
-    public Repository(ApplicationDbContext dbContext, DbSet<TEntity> dbSet)
+    public Repository(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
-        _dbSet = dbSet;
+        _dbSet = _dbContext.Set<TEntity>();
     }
 
     public async Task<TEntity> GetByIdAsync(int id)

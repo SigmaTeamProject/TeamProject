@@ -28,7 +28,7 @@ public class ProductController : BaseController
         {
             Id = id
         };
-        return Ok(_mediator.Send(command));
+        return Ok(await _mediator.Send(command));
     }
 
     [HttpGet]
@@ -38,7 +38,7 @@ public class ProductController : BaseController
         {
 
         };
-        return Ok(_mediator.Send(command));
+        return Ok(await _mediator.Send(command));
     }
     [HttpPost]
     public async Task<ActionResult> Update(ProductDto product)
@@ -47,7 +47,7 @@ public class ProductController : BaseController
         {
             Product = product
         };
-        return Ok(_mediator.Send(command));
+        return Ok(await _mediator.Send(command));
     }
 
 }

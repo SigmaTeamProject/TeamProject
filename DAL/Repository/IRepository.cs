@@ -4,10 +4,10 @@ using System.Linq.Expressions;
 
 namespace DAL.Repositry;
 
-public interface IRepository<TEntity>
+public interface IRepository<TEntity> where TEntity : class
 {
     public Task<TEntity> GetByIdAsync(int id);
-    IQueryable<TEntity> Query(params Expression<Func<TEntity, object>>[] includes);
+    public IQueryable<TEntity> Query(params Expression<Func<TEntity, object>>[] includes);
     public Task<IEnumerable<TEntity>> GetAllAsync();
     public Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
     public Task<TEntity> AddAsync(TEntity entity);

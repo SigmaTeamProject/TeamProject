@@ -2,7 +2,6 @@
 using AutoMapper;
 using Data;
 using MediatR;
-using Persistence.Repository;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;

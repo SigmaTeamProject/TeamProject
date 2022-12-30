@@ -9,7 +9,7 @@ public class Customer
     public string Password { get; set; }
     public string Name { get; set; }
     public string Surname { get; set; }
-    public ICollection<Order> Orders { get; set; }
+    public ICollection<Order>? Orders { get; set; } = new List<Order>();
     public DateOnly BirthDay { get; set; }
     public Cart Cart { get; set; }
     public int CartId { get; set; }
