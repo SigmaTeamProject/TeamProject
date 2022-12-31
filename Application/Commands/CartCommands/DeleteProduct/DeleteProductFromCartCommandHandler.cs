@@ -10,14 +10,15 @@ namespace Application.Commands.CartCommands.DeleteProduct
     public class DeleteProductFromCartCommandHandler : IRequestHandler<DeleteProductFromCartCommand, CartModel>
     {
         private readonly IRepository<Cart> _cartRepository;
-        private readonly IRepository<StorageItem> _storageItemRepository;
+        private readonly IRepository<CartItem> _cartItemRepository;
         private readonly IMapper _mapper;
 
-        public DeleteProductFromCartCommandHandler(IMapper mapper, IRepository<Cart> cartRepository, IRepository<StorageItem> storageItemRepository)
+        public DeleteProductFromCartCommandHandler(IMapper mapper, IRepository<Cart> cartRepository, 
+            IRepository<CartItem> cartItemRepository)
         {
             _cartRepository = cartRepository;
+            _cartItemRepository = cartItemRepository;
             _mapper = mapper;
-            _storageItemRepository = storageItemRepository;
         }
 
         public async Task<CartModel> Handle(DeleteProductFromCartCommand request, CancellationToken cancellationToken)
@@ -25,12 +26,10 @@ namespace Application.Commands.CartCommands.DeleteProduct
             if (request == null) throw new ArgumentException();
             var userId = request.UserId;
             var cart = await _cartRepository.Query()
-                .Include(cart => cart.Customer)
                 .Include(cart => cart.Items)
-                .FirstOrDefaultAsync(cart => cart.Customer!.Id == userId);
+                .FirstOrDefaultAsync(cart => cart.CustomerId == userId);
 
-            if(cart.Items == null) throw new ArgumentException();
-            if (!cart.Items.Any(item => item.ProductId == request.ProductId)) throw new ArgumentException();
+            if(cart == null || cart.Items == null) throw new ArgumentException();
 
             var itemToDelete = cart.Items.FirstOrDefault(item => item.ProductId == request.ProductId);
 
@@ -39,7 +38,16 @@ namespace Application.Commands.CartCommands.DeleteProduct
             await _cartRepository.UpdateAsync(cart);
             await _cartRepository.SaveChangesAsync();
 
-            return _mapper.Map<CartModel>(cart);
+            var list = _cartItemRepository.Query()
+                .Include(item => item.Product)
+                .Where(item => cart.Items.Contains(item));
+            var cartModel = new CartModel
+            {
+                Products = _mapper.Map<ICollection<BuyProductModel>>(list)
+            };
+            cartModel.TotalPrice = cartModel.Products.Select(p => p.Price * p.Quantity).Sum();
+
+            return cartModel;
         }
     }
 }

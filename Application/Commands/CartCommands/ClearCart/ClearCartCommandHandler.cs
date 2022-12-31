@@ -10,12 +10,10 @@ namespace Application.Commands.CartCommands.ClearCart
     public class ClearCartCommandHandler : IRequestHandler<ClearCartCommand, CartModel>
     {
         private readonly IRepository<Cart> _cartRepository;
-        private readonly IMapper _mapper;
 
-        public ClearCartCommandHandler(IMapper mapper, IRepository<Cart> cartRepository)
+        public ClearCartCommandHandler(IRepository<Cart> cartRepository)
         {
             _cartRepository = cartRepository;
-            _mapper = mapper;
         }
 
         public async Task<CartModel> Handle(ClearCartCommand request, CancellationToken cancellationToken)
@@ -23,16 +21,17 @@ namespace Application.Commands.CartCommands.ClearCart
             if (request == null) throw new ArgumentException();
             var userId = request.UserId;
             var cart = await _cartRepository.Query()
-                .Include(cart => cart.Customer)
                 .Include(cart => cart.Items)
-                .FirstOrDefaultAsync(cart => cart.Customer!.Id == userId);
+                .FirstOrDefaultAsync(cart => cart.CustomerId == userId);
 
-            if (cart.Items != null) cart.Items.Clear();
+            if (cart == null || cart.Items == null) throw new ArgumentException();
+            
+            cart.Items.Clear();
 
             await _cartRepository.UpdateAsync(cart);
             await _cartRepository.SaveChangesAsync();
 
-            return _mapper.Map<CartModel>(cart);
+            return new CartModel();
         }
     }
 }

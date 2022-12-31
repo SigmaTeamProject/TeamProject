@@ -14,8 +14,16 @@ public class CartMapper : Profile
         CreateMap<AddInCartProductDto, AddProductInCartCommand>().ReverseMap();
         CreateMap<UpdateProductInCartDto, UpdateProductInCartCommand>().ReverseMap();
         CreateMap<DeleteProductFromCartDto, DeleteProductFromCartCommand>().ReverseMap();
-        CreateMap<Cart, CartModel>().ReverseMap();
-        CreateMap<BuyProductModel, StorageItem>().ReverseMap();
-        CreateMap<Product, ProductModel>().ReverseMap();
+
+        CreateMap<BuyProductModel,CartItem>()
+            .ForPath(cart => cart.Product!.Id,
+            opt => opt.MapFrom(p => p.Id))
+            .ForPath(cart => cart.Product!.Name,
+            opt => opt.MapFrom(p => p.Name))
+            .ForPath(cart => cart.Product!.Price,
+            opt => opt.MapFrom(p => p.Price))
+            .ForPath(cart => cart.Amount,
+            opt => opt.MapFrom(p => p.Quantity))
+            .ReverseMap();
     }
 }
