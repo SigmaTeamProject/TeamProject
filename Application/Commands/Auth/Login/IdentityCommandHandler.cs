@@ -8,7 +8,7 @@ using System.Security.Claims;
 using System.Text;
 using Application.Extensions;
 using DAL.Repositry;
-using Application.Commands.Auth.JWT;
+using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 

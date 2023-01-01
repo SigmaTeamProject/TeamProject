@@ -3,7 +3,7 @@ using AutoMapper;
 using DAL.Repositry;
 using Data;
 using MediatR;
-using Application.Commands.Auth.JWT;
+using Application.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Commands.Auth.Registration

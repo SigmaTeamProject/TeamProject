@@ -1,6 +1,6 @@
 ﻿using Data;
 
-namespace Application.Commands.Auth.JWT
+namespace Application.Services.Interfaces
 {
     public interface ITokenManager
     {

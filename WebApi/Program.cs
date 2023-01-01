@@ -1,5 +1,4 @@
 using System.Reflection;
-using Application.Commands.Auth.JWT;
 using Application.Commands.CartCommands.AddProduct;
 using Application.Extensions;
 using Application.Services.Implementation;
@@ -51,6 +50,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(
 builder.Services.AddMediator();
 builder.Services.AddScoped<ITokenManager, TokenManager>();
 //builder.Services.AddEntityFrameworkNpgsql();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IRepository<Customer>, Repository<Customer>>();
 builder.Services.AddScoped<IRepository<Order>, Repository<Order>>();
@@ -66,7 +66,7 @@ builder.Services.AddScoped<ITokenManager, TokenManager>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
-//AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 var app = builder.Build();
 
 LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
