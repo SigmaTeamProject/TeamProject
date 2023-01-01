@@ -1,16 +1,12 @@
-﻿using Data;
-using Microsoft.AspNet.Identity;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
+using Application.Services.Interfaces;
+using Data;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 
-namespace Application.Commands.Auth.JWT
+namespace Application.Services.Implementation
 {
     public class TokenManager : ITokenManager
     {

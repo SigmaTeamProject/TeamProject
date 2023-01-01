@@ -2,6 +2,7 @@ namespace Application.Models;
 
 public class OrderModel
 {
-    public ICollection<BuyProductModel> ProductModels { get; set; }
-    public PaymentConfigModel PaymentConfigModel { get; set; }
+    public decimal TotalAmount { get; set; }
+    public IEnumerable<BuyProductModel> Products { get; set; }
+    public IEnumerable<PaymentConfigModel> PossiblePaymentMethods { get; set; }
 }
