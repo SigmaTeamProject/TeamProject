@@ -1,14 +1,16 @@
-﻿using System.Data.Entity;
 using Application.Models;
 using AutoMapper;
 using Data;
 using MediatR;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Application.Extensions;
 using DAL.Repositry;
+using Application.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Commands.Auth.Login
 {
@@ -16,37 +18,34 @@ namespace Application.Commands.Auth.Login
     {
         private readonly IRepository<Customer> _repository;
         private readonly IMapper _mapper;
-        private readonly SymmetricSecurityKey _key;
+        private readonly ITokenManager _tokenManager;
 
-        public IdentityCommandHandler(IMapper mapper, IRepository<Customer> repository)
+        public IdentityCommandHandler(IMapper mapper, IRepository<Customer> repository, 
+            ITokenManager tokenManager)
         {
             _repository = repository;
             _mapper = mapper;
-            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("adsf"));
+            _tokenManager = tokenManager;
         }
 
         public async Task<(CustomerModel, string)> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
             var customer = await _repository.FirstOrDefaultAsync(customer =>
-                customer.Login == request.Login && customer.Password == request.Password);
-        
-            var claims = new List<Claim>
+                customer.Login == request.Login);
+
+            if (customer == null)
             {
-                new Claim(JwtRegisteredClaimNames.Sub, customer!.Id.ToString()),
-                new Claim(ClaimTypes.Role, customer.Role!)
-            };
-            
-            var tokenDescriptor = new SecurityTokenDescriptor
+                return (new CustomerModel(), string.Empty);
+            }
+
+            if (!BCrypt.Net.BCrypt.Verify(request.Password, customer.Password))
             {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddMinutes(60)
-            };
+                return (new CustomerModel(), string.Empty);
+            }
+
+            var token = _tokenManager.GenerateToken(customer);
         
-            var tokenHandler = new JwtSecurityTokenHandler();
-        
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-        
-            return (_mapper.Map<CustomerModel>(customer), tokenHandler.WriteToken(token));
+            return (_mapper.Map<CustomerModel>(customer), token);
         }
     }
 }
