@@ -37,7 +37,7 @@ public class CheckoutCommandHandler : IRequestHandler<CheckoutCommand, OrderMode
             PossiblePaymentMethods = _paymentService.GetAllPaymentMethods(),
             Products = _mapper.ProjectTo<BuyProductModel>(cart.Items.AsQueryable()).ToList()
         };
-        orderModel.TotalAmount = orderModel.Products.Sum(model => model.Amount * model.TotalPrice);
+        orderModel.TotalAmount = orderModel.Products.Sum(model => model.Quantity * model.TotalPrice);
         return orderModel;
     }
 }
