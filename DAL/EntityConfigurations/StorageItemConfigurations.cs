@@ -12,10 +12,5 @@ public class StorageItemConfigurations: IEntityTypeConfiguration<StorageItem>
         builder.HasOne(item => item.Product)
             .WithOne(product => product.StorageItem)
             .HasForeignKey<StorageItem>(item => item.ProductId);
-        builder.HasMany(item => item.Carts)
-            .WithMany(cart => cart.Items);
-        builder.HasMany(item => item.Orders)
-            .WithMany(order => order.Items);
-        builder.ToTable("StorageItems");
     }
 }

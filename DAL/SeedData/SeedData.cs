@@ -86,7 +86,7 @@ public static class SeedData
 
         // Set of Customers
         modelBuilder.Entity<Customer>().HasData(
-            new Customer() { Id = 1, Login = "heidrich@me.com", Name = "Adelyn", Surname = "Sawyer", Password = "9*TeG*vmg1%PKnOb", BirthDay = new DateOnly(2000, 11, 13) },
+            new Customer() { Id = 1, Role = "User", Login = "heidrich@me.com", Name = "Adelyn", Surname = "Sawyer", Password = "9*TeG*vmg1%PKnOb", BirthDay = new DateOnly(2000, 11, 13) },
             new Customer() { Id = 2, Login = "mcrawfor@mac.com", Name = "Ernest", Surname = "Duke", Password = "Dm8-k&Qov@*N+9pw", BirthDay = new DateOnly(2003, 9, 25) },
             new Customer() { Id = 3, Login = "attwood@optonline.net", Name = "Nathen", Surname = "Becker", Password = "J8=WHk7IvVe1IWfZ", BirthDay = new DateOnly(2005, 7, 2) },
             new Customer() { Id = 4, Login = "aegreene@optonline.net", Name = "Keyon", Surname = "Snyder", Password = "AQnNNu?43i557vdV", BirthDay = new DateOnly(1984, 8, 17) },
