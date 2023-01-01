@@ -10,9 +10,9 @@ namespace Application.Commands.StoregeCommands.AddProduct
     public class AddProductInStoregeCommandHandler : IRequestHandler<AddProductInStoregeCommand,ProductModel>
     {
         private readonly IMapper _mapper;
-        private readonly IRepository<Product> _repository;
+        private readonly IRepository<Data.Product> _repository;
 
-        public AddProductInStoregeCommandHandler(IMapper mapper,IRepository<Product> repository)
+        public AddProductInStoregeCommandHandler(IMapper mapper,IRepository<Data.Product> repository)
         {
             _mapper = mapper;
             _repository = repository;
@@ -25,7 +25,7 @@ namespace Application.Commands.StoregeCommands.AddProduct
                 throw new ArgumentException();
             }
 
-            await _repository.AddAsync(_mapper.Map<Product>(request));
+            await _repository.AddAsync(_mapper.Map<Data.Product>(request));
             await _repository.SaveChangesAsync();
 
             return _mapper.Map<ProductModel>(request);

@@ -9,10 +9,10 @@ namespace Application.Commands.StoregeCommands.UpdateProduct
 {
     public class UpdateProdcuctInStoregeCommandHandler : IRequestHandler<UpdateProductInStoregeCommand,ProductModel>
     {
-        private readonly IRepository<Product> _productRepository;
+        private readonly IRepository<Data.Product> _productRepository;
         private readonly IMapper _mapper;
 
-        public UpdateProdcuctInStoregeCommandHandler(IRepository<Product> productRepository,IMapper mapper)
+        public UpdateProdcuctInStoregeCommandHandler(IRepository<Data.Product> productRepository,IMapper mapper)
         {
             _productRepository = productRepository;
             _mapper = mapper;

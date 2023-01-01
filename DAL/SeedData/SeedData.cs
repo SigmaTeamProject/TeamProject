@@ -35,28 +35,6 @@ public static class SeedData
             );
 
         // Set of ProductCharacteristic
-        modelBuilder.Entity<ProductCharacteristic>().HasData(
-            new ProductCharacteristic() { Id = 1, ProductId = 1, Name = "Material", Value = "Wool" },
-            new ProductCharacteristic() { Id = 2, ProductId = 2, Name = "Brand", Value = "ChinaTown" },
-            new ProductCharacteristic() { Id = 3, ProductId = 3, Name = "Material", Value = "Polyester" },
-            new ProductCharacteristic() { Id = 4, ProductId = 4, Name = "Material", Value = "Nylon" },
-            new ProductCharacteristic() { Id = 5, ProductId = 5, Name = "Material", Value = "Cotton" },
-            new ProductCharacteristic() { Id = 6, ProductId = 6, Name = "Material", Value = "Denim" },
-            new ProductCharacteristic() { Id = 7, ProductId = 7, Name = "Material", Value = "Leather" },
-            new ProductCharacteristic() { Id = 8, ProductId = 8, Name = "Brand", Value = "Victoria`s Secret" },
-            new ProductCharacteristic() { Id = 9, ProductId = 9, Name = "Material", Value = "Nylon" },
-            new ProductCharacteristic() { Id = 10, ProductId = 10, Name = "Material", Value = "Nylon" },
-            new ProductCharacteristic() { Id = 12, ProductId = 11, Name = "Brand", Value = "Guess" },
-            new ProductCharacteristic() { Id = 13, ProductId = 12, Name = "Brand", Value = "Nike" },
-            new ProductCharacteristic() { Id = 14, ProductId = 13, Name = "Brand", Value = "Tom Ford" },
-            new ProductCharacteristic() { Id = 15, ProductId = 14, Name = "Brand", Value = "Tom Ford" },
-            new ProductCharacteristic() { Id = 16, ProductId = 15, Name = "Brand", Value = "Guess" },
-            new ProductCharacteristic() { Id = 17, ProductId = 16, Name = "Material", Value = "Cotton" },
-            new ProductCharacteristic() { Id = 18, ProductId = 17, Name = "Brand", Value = "Green Hill" },
-            new ProductCharacteristic() { Id = 19, ProductId = 18, Name = "Brand", Value = "Adidas" },
-            new ProductCharacteristic() { Id = 20, ProductId = 19, Name = "Brand", Value = "Victoria`s Secret" },
-            new ProductCharacteristic() { Id = 21, ProductId = 20, Name = "Brand", Value = "ChinaTown" }
-            );
 
         // Set of StorageItems
         modelBuilder.Entity<StorageItem>().HasData(
@@ -105,28 +83,6 @@ public static class SeedData
             );
 
         // Set of StorageItems
-        modelBuilder.Entity<StorageItem>().HasData(
-            new StorageItem() { Id = 1,ProductId = 1,Amount = 35 },
-            new StorageItem() { Id = 2,ProductId = 2,Amount = 150 },
-            new StorageItem() { Id = 3,ProductId = 3,Amount = 50 },
-            new StorageItem() { Id = 4,ProductId = 4,Amount = 47 },
-            new StorageItem() { Id = 5,ProductId = 5,Amount = 13 },
-            new StorageItem() { Id = 6,ProductId = 6,Amount = 259 },
-            new StorageItem() { Id = 7,ProductId = 7,Amount = 67 },
-            new StorageItem() { Id = 8,ProductId = 8,Amount = 50 },
-            new StorageItem() { Id = 9,ProductId = 9,Amount = 45 },
-            new StorageItem() { Id = 10,ProductId = 10,Amount = 156 },
-            new StorageItem() { Id = 11,ProductId = 11,Amount = 69 },
-            new StorageItem() { Id = 12,ProductId = 12,Amount = 645 },
-            new StorageItem() { Id = 13,ProductId = 13,Amount = 76 },
-            new StorageItem() { Id = 14,ProductId = 14,Amount = 45 },
-            new StorageItem() { Id = 15,ProductId = 15,Amount = 213 },
-            new StorageItem() { Id = 16,ProductId = 16,Amount = 56 },
-            new StorageItem() { Id = 17,ProductId = 17,Amount = 75 },
-            new StorageItem() { Id = 18,ProductId = 18,Amount = 56 },
-            new StorageItem() { Id = 19,ProductId = 19,Amount = 34 },
-            new StorageItem() { Id = 20,ProductId = 20,Amount = 43 }
-            );
 
         // Set of Storage will be automatically created
 
