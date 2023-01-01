@@ -1,4 +1,5 @@
-﻿using Application.Models;
+﻿using Application.Exceptions;
+using Application.Models;
 using AutoMapper;
 using DAL.Repositry;
 using Data;
@@ -33,7 +34,9 @@ namespace Application.Commands.CartCommands.DeleteProduct
 
             var itemToDelete = cart.Items.FirstOrDefault(item => item.ProductId == request.ProductId);
 
-            if (itemToDelete != null) cart.Items.Remove(itemToDelete);
+            if (itemToDelete == null) throw new NotFoundException(nameof(cart.Items), request.ProductId);
+                
+            cart.Items.Remove(itemToDelete);
 
             await _cartRepository.UpdateAsync(cart);
             await _cartRepository.SaveChangesAsync();

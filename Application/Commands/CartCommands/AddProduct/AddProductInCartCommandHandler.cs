@@ -36,7 +36,7 @@ namespace Application.Commands.CartCommands.AddProduct
             var storageItem = await _storageItemRepository.FirstOrDefaultAsync(item => item.ProductId == request.ProductId);
 
             if (storageItem == null) throw new ArgumentNullException();
-            if (cart.Items == null) cart.Items = new List<CartItem>();
+            cart.Items ??= new List<CartItem>();
             if (request.Count < 0 || storageItem.Amount - request.Count < 0) throw new ArgumentException();
 
             if (cart.Items.Any(item => item.ProductId == request.ProductId))
