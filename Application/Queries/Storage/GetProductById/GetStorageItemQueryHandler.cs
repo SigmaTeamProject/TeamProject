@@ -18,7 +18,10 @@ namespace Application.Queries.Storage.GetProductById
         }
         public async Task<StorageItemModel> Handle(GetStorageItemQuery request, CancellationToken cancellationToken)
         {
-            var item = await _repository.Query().Include(i => i.Product).FirstOrDefaultAsync(i => i.ProductId == request.Id);
+            var item = await _repository.Query()
+                .Include(i => i.Product)
+                .ThenInclude(p => p.Characteristics)
+                .FirstOrDefaultAsync(i => i.ProductId == request.Id);
             return _mapper.Map<StorageItemModel>(item);
         }
     }

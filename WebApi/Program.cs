@@ -36,17 +36,17 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwagger();
 builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
 
-//builder.Services.AddDbContext<ApplicationDbContext>();
+builder.Services.AddDbContext<ApplicationDbContext>();
 /*builder.Services.AddDbContext<ApplicationDbContext>(
     optionsBuilder => optionsBuilder
         .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")!, b => b.MigrationsAssembly("WebApi"))
         .EnableSensitiveDataLogging()
     );*/
-builder.Services.AddDbContext<ApplicationDbContext>(
-    optionsBuilder => optionsBuilder
-        .UseNpgsql("Host=localhost;Username=aloshaprokopenko5;Password=787898;Database=sigma_db")
-        .EnableSensitiveDataLogging()
-);
+//builder.Services.AddDbContext<ApplicationDbContext>(
+//    optionsBuilder => optionsBuilder
+//        .UseNpgsql("Host=localhost;Username=aloshaprokopenko5;Password=787898;Database=sigma_db")
+//        .EnableSensitiveDataLogging()
+//);
 builder.Services.AddMediator();
 builder.Services.AddScoped<ITokenManager, TokenManager>();
 //builder.Services.AddEntityFrameworkNpgsql();
@@ -66,7 +66,7 @@ builder.Services.AddScoped<ITokenManager, TokenManager>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
-AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior",true);
+//AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior",true);
 var app = builder.Build();
 
 LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(),"/nlog.config"));

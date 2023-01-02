@@ -6,7 +6,8 @@ namespace Application.Commands.StoregeCommands.AddProduct
 {
     public class AddProductInStorageCommand : IRequest<StorageItemModel>
     {
-        public int ProductId { get; set; }
+        public string Name { get; set; }
+        public decimal Price { get; set; }
         public int Amount { get; set; }
     }
 }

@@ -56,7 +56,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateProduct(StorageItemDto storageItemToUpdate)
+        public async Task<IActionResult> UpdateProduct(UpdateStorageItemDto storageItemToUpdate)
         {
             var command = _mapper.Map<UpdateProductInStorageCommand>(storageItemToUpdate);
             var result = await _mediator.Send(command);

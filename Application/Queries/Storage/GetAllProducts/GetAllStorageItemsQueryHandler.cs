@@ -18,8 +18,9 @@ namespace Application.Queries.Storage.GetAllProducts
         }
         public async Task<IEnumerable<StorageItemModel>> Handle(GetAllStorageItemsQuery request, CancellationToken cancellationToken)
         {
-            var items = await _repository.Query().Include(i => i.Product).ToListAsync();
-            return _mapper.Map<IEnumerable<StorageItemModel>>(items);
+            var items = await _repository.Query().Include(i => i.Product).ThenInclude(pr => pr.Characteristics).ToListAsync();
+
+            return _mapper.ProjectTo<StorageItemModel>(items.AsQueryable());
         }
     }
 }

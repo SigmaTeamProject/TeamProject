@@ -24,23 +24,16 @@ namespace Application.Commands.StoregeCommands.UpdateProduct
 
             var storageItem = await _repository.FirstOrDefaultAsync(item => item.ProductId == request.ProductId);
 
-            if (storageItem == null)
-            {
-                var itemToAdd = _mapper.Map<StorageItem>(request);
-                await _repository.AddAsync(itemToAdd);
-            }
-            else
-            {
-                if (request.Amount < 0) throw new ArgumentException();
+            if (storageItem == null) throw new ArgumentException();
+            if (request.Amount < 0) throw new ArgumentException();
 
-                storageItem.Amount = request.Amount;
-                await _repository.UpdateAsync(storageItem);
-            }
-
+            storageItem.Amount = request.Amount;
+            await _repository.UpdateAsync(storageItem);
             await _repository.SaveChangesAsync();
 
             var item = await _repository
                 .Query().Include(i => i.Product)
+                .ThenInclude(product => product.Characteristics)
                 .FirstOrDefaultAsync(item => item.ProductId == request.ProductId);
 
             return _mapper.Map<StorageItemModel>(item);

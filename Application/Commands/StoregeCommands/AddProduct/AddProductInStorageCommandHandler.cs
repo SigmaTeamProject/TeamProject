@@ -10,40 +10,54 @@ namespace Application.Commands.StoregeCommands.AddProduct
     public class AddProductInStorageCommandHandler : IRequestHandler<AddProductInStorageCommand, StorageItemModel>
     {
         private readonly IMapper _mapper;
-        private readonly IRepository<StorageItem> _repository;
+        private readonly IRepository<StorageItem> _storageItemRepository;
+        private readonly IRepository<Data.Product> _productRepository;
 
-        public AddProductInStorageCommandHandler(IMapper mapper,IRepository<StorageItem> repository)
+        public AddProductInStorageCommandHandler(IMapper mapper,
+            IRepository<StorageItem> storageItemRepository,
+            IRepository<Data.Product> productRepository)
         {
             _mapper = mapper;
-            _repository = repository;
+            _storageItemRepository = storageItemRepository;
+            _productRepository = productRepository;
         }
 
         public async Task<StorageItemModel> Handle(AddProductInStorageCommand request,CancellationToken cancellationToken)
         {
             if (request == null) throw new ArgumentException();
 
-            var storageItem = await _repository.FirstOrDefaultAsync(item => item.ProductId == request.ProductId);
+            if (_productRepository.Query().Any(product => product.Name == request.Name && product.Price == request.Price))
+                throw new ArgumentException();
 
-            if (storageItem == null)
+            if (request.Amount < 0 || request.Price < 0 || request.Name == "") throw new ArgumentException();
+
+            var productToAdd = new Data.Product
             {
-                var itemToAdd = _mapper.Map<StorageItem>(request);
-                await _repository.AddAsync(itemToAdd);
-            }
-            else
+                Name = request.Name,
+                Price = request.Price
+            };
+
+            await _productRepository.AddAsync(productToAdd);
+            await _productRepository.SaveChangesAsync();
+
+            var addedProduct = await _productRepository
+                .FirstOrDefaultAsync(product => product.Name == productToAdd.Name && product.Price == productToAdd.Price);
+
+            var itemToAdd = new StorageItem
             {
-                if (request.Amount < 0) throw new ArgumentException();
+                ProductId = addedProduct.Id,
+                Amount = request.Amount
+            };
 
-                storageItem.Amount = request.Amount;
-                await _repository.UpdateAsync(storageItem);
-            }
+            await _storageItemRepository.AddAsync(itemToAdd);
+            await _storageItemRepository.SaveChangesAsync();
 
-            await _repository.SaveChangesAsync();
+            var itemToReturn = await _storageItemRepository.Query()
+                .Include(item => item.Product)
+                .ThenInclude(product => product.Characteristics)
+                .FirstOrDefaultAsync(item => item.ProductId == addedProduct.Id);
 
-            var item = await _repository
-                .Query().Include(i => i.Product)
-                .FirstOrDefaultAsync(item => item.ProductId == request.ProductId);
-
-            return _mapper.Map<StorageItemModel>(item);
+            return _mapper.Map<StorageItemModel>(itemToReturn);
         }
     }
 }
