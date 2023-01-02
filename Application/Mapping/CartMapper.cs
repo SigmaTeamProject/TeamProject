@@ -16,12 +16,10 @@ public class CartMapper : Profile
         CreateMap<DeleteProductFromCartDto, DeleteProductFromCartCommand>().ReverseMap();
 
         CreateMap<BuyProductModel,CartItem>()
-            .ForPath(cart => cart.Product!.Name,
-            opt => opt.MapFrom(p => p.ProductModel!.Name))
             .ForPath(cart => cart.Product!.Price,
             opt => opt.MapFrom(p => p.Price))
             .ForPath(cart => cart.Amount,
-            opt => opt.MapFrom(p => p.Quantity))
+            opt => opt.MapFrom(p => p.Amount))
             .ReverseMap();
     }
 }

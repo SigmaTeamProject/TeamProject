@@ -10,67 +10,62 @@ using Application.Dtos;
 using Application.Queries.Product.GetProductById;
 using Application.Queries.Product.GetAllProducts;
 
-namespace WebApi.Controllers
+namespace WebApi.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class StoregeController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class StoregeController : ControllerBase
+
+    private readonly IMediator _mediator;
+    private readonly IMapper _mapper;
+
+    public StoregeController(IMediator mediator,IMapper mapper)
     {
+        _mediator = mediator;
+        _mapper = mapper;
+    }
 
-        private readonly IMediator _mediator;
-        private readonly IMapper _mapper;
-
-        public StoregeController(IMediator mediator,IMapper mapper)
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<ProductPreviewModel>>> GetAllProducts()
+    {
+        var command = new GetAllProductQuery
         {
-            _mediator = mediator;
-            _mapper = mapper;
-        }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductPreviewModel>>> GetAllProducts()
+        };
+        return Ok(_mediator.Send(command));
+    }
+
+    [HttpGet("{Id:int}")]
+    public async Task<ActionResult<ProductModel>> GetProductById(int Id)
+    {
+        var command = new GetProductByIdQuery
         {
-            var command = new GetAllProductQuery
-            {
+            Id = Id
+        };
+        return Ok(_mediator.Send(command));
+    }
 
-            };
-            return Ok(_mediator.Send(command));
-        }
-
-        [HttpGet("{Id:int}")]
-        public async Task<ActionResult<ProductModel>> GetProductById(int Id)
+    [HttpPost]
+    public async Task<ActionResult> AddProduct(ProductModel newProduct)
+    {
+        var prod = new Product
         {
-            var command = new GetProductByIdQuery
-            {
-                Id = Id
-            };
-            return Ok(_mediator.Send(command));
-        }
+            Name = newProduct.Name,
+            Price = newProduct.Price
+        };
 
-        [HttpPost]
-        public async Task<ActionResult> AddProduct(ProductModel newProduct)
-        {
-            var prod = new Product
-            {
-                Name = newProduct.Name,
-                Price = newProduct.Price
-            };
+        var command = _mapper.Map<Product>(prod);
+        var result = await _mediator.Send(command);
+        return Ok(result);
 
-            var command = _mapper.Map<Product>(prod);
-            var result = await _mediator.Send(command);
-            return Ok(result);
+    }
 
-        }
-
-        [HttpPut("{Id:int}")]
-        public async Task<IActionResult> UpdateProduct([FromBody] ProductDto updateProduct)
-        {
-            var command = _mapper.Map<ProductDto>(updateProduct);
-            var result = await _mediator.Send(command);
-            return Ok(result);
-        }
-
-
-
-
+    [HttpPut("{Id:int}")]
+    public async Task<IActionResult> UpdateProduct([FromBody] ProductDto updateProduct)
+    {
+        var command = _mapper.Map<ProductDto>(updateProduct);
+        var result = await _mediator.Send(command);
+        return Ok(result);
     }
 }

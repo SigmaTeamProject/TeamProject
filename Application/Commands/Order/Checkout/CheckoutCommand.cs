@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Application.Commands.Order.Checkout;
 
-public class CheckoutCommand : IRequest<OrderModel>
+public class CheckoutCommand : IRequest<CheckoutModel>
 {
     public int CustomerId { get; set; }
     public PaymentConfigDto? PaymentConfigDto { get; set; }

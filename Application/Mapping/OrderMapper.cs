@@ -10,8 +10,8 @@ public class OrderMapper : Profile
     public OrderMapper()
     {
         CreateMap<Order, OrderPreviewModel>();
-        CreateMap<Check, CheckModel>().ReverseMap();
+        CreateMap<Order, CheckModel>();
         CreateMap<PaymentConfig, PaymentConfigDto>().ReverseMap();
-        CreateMap<OrderModel, Order>();
+        CreateMap<CheckoutModel, Order>();
     }
 }

@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Dtos
+namespace Application.Dtos;
+
+public class DeleteProductFromCartDto
 {
-    public class DeleteProductFromCartDto
-    {
-        public int ProductId { get; set; }
-    }
+    public int ProductId { get; set; }
 }

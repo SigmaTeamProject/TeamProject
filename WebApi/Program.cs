@@ -59,7 +59,6 @@ builder.Services.AddScoped<IRepository<Cart>, Repository<Cart>>();
 builder.Services.AddScoped<IRepository<StorageItem>, Repository<StorageItem>>();
 builder.Services.AddScoped<IRepository<CartItem>, Repository<CartItem>>();
 builder.Services.AddScoped<IRepository<ProductCharacteristic>, Repository<ProductCharacteristic>>();
-builder.Services.AddScoped<IRepository<Check>, Repository<Check>>();
 builder.Services.AddScoped<IRepository<PaymentConfig>, Repository<PaymentConfig>>();
 builder.Services.AddScoped<ITokenManager, TokenManager>();
 

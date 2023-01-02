@@ -1,8 +1,8 @@
 namespace Application.Models;
 
-public class OrderModel
+public class CheckoutModel
 {
     public decimal TotalAmount { get; set; }
-    public IEnumerable<BuyProductModel> Products { get; set; }
+    public IEnumerable<BuyProductModel> Products { get; set; } = new List<BuyProductModel>();
     public IEnumerable<PaymentConfigModel> PossiblePaymentMethods { get; set; }
 }

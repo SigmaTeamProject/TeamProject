@@ -18,6 +18,10 @@ public class GetAllOrdersQueryHandler : IRequestHandler<GetAllOrdersQuery, IEnum
 
     public async Task<IEnumerable<OrderPreviewModel>> Handle(GetAllOrdersQuery request, CancellationToken cancellationToken)
     {
+        var a = await _repository.Query()
+            .Where(order => order.CustomerId == request.CustomerId)
+            .Include(order => order.Items)
+            .ToListAsync();
         var orders = _mapper.ProjectTo<OrderPreviewModel>(
             (await _repository.Query()
                 .Where(order => order.CustomerId == request.CustomerId)

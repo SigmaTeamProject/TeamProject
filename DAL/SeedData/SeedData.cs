@@ -109,13 +109,13 @@ public static class SeedData
             new PaymentConfig() { CustomerId = 5,Type = "MasterCard" },
             new PaymentConfig() { CustomerId = 6,Type = "Visa" },
             new PaymentConfig() { CustomerId = 7,Type = "Visa" },
-            new PaymentConfig() { CustomerId = 8,Type = "Visa" },
+            new PaymentConfig() { CustomerId = 8,Type = "PayPal" },
             new PaymentConfig() { CustomerId = 9,Type = "Visa" },
             new PaymentConfig() { CustomerId = 10,Type = "Visa" }
             );
 
         // Set of Orders
-        modelBuilder.Entity<Order>().HasData(
+        /*modelBuilder.Entity<Order>().HasData(
             new Order() { CustomerId = 1, Id = 1, OrderDate= new DateTime(2022, 10, 13) },
             new Order() { CustomerId = 2, Id = 2, OrderDate = new DateTime(2022, 10, 13) },
             new Order() { CustomerId = 3, Id = 3, OrderDate = new DateTime(2022, 10, 14) },
@@ -126,21 +126,9 @@ public static class SeedData
             new Order() { CustomerId = 8, Id = 8, OrderDate = new DateTime(2022, 12, 22) },
             new Order() { CustomerId = 9, Id = 9, OrderDate = new DateTime(2022, 12, 14) },
             new Order() { CustomerId = 10, Id = 10, OrderDate = new DateTime(2022, 12, 13) }
-            );
+            );*/
 
         // Set of Checks
-        modelBuilder.Entity<Check>().HasData(
-            new Check() { OrderId = 1 },
-            new Check() { OrderId = 2 },
-            new Check() { OrderId = 3 },
-            new Check() { OrderId = 4 },
-            new Check() { OrderId = 5 },
-            new Check() { OrderId = 6 },
-            new Check() { OrderId = 7 },
-            new Check() { OrderId = 8 },
-            new Check() { OrderId = 9 },
-            new Check() { OrderId = 10 }
-            );
 
         // Set of Carts
         modelBuilder.Entity<Cart>().HasData(
