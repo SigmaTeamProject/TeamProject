@@ -3,6 +3,7 @@ using Application.Commands.CartCommands.UpdateProduct;
 using Application.Dtos;
 using Application.Models;
 using AutoMapper;
+using Data;
 
 namespace Application.Mapping;
 

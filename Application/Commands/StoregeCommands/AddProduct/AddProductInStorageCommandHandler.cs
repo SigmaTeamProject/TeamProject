@@ -27,7 +27,8 @@ namespace Application.Commands.StoregeCommands.AddProduct
             if (request == null) throw new ArgumentException();
 
             if (_productRepository.Query().Any(product => product.Name == request.Name && product.Price == request.Price))
-                throw new ArgumentException();
+                throw new ArgumentException("Item with this name already added Id = " + 
+                                            _productRepository.FirstOrDefaultAsync(product => product.Name == request.Name).Result!.Id);
 
             if (request.Amount < 0 || request.Price < 0 || request.Name == "") throw new ArgumentException();
 

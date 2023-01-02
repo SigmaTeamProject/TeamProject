@@ -63,7 +63,7 @@ namespace Application.Commands.CartCommands.AddProduct
             {
                 Products = _mapper.Map<ICollection<BuyProductModel>>(list)
             };
-            cartModel.TotalPrice = cartModel.Products.Select(p => p.Price * p.Quantity).Sum();
+            cartModel.TotalPrice = cartModel.Products.Select(p => p.Price * p.Amount).Sum();
 
             return cartModel;
         }

@@ -26,6 +26,7 @@ public class ProductMapper : Profile
                 opt => opt.MapFrom(item => item.Product!.Name));
         CreateMap<ProductCharacteristicDto, UpdateProductCharacteristicCommand>();
         CreateMap<ProductCharacteristic, ProductCharacteristicModel>().ReverseMap();
+        CreateMap<UpdateProductCharacteristicCommand, ProductCharacteristic>();
         CreateMap<Product, ProductPreviewModel>();
         CreateMap<ProductDto, Product>().ReverseMap();
         CreateMap<Product, ProductModel>()

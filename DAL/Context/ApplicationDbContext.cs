@@ -23,14 +23,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<OrderItem> OrderItems { get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        var configuration = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json")
-            .Build();
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
-        //var connectionString = "Host=localhost;Username=aloshaprokopenko5;Password=787898;Database=sigma_db";
-        //optionsBuilder.UseSqlServer(connectionString).EnableSensitiveDataLogging();
-        //optionsBuilder.UseNpgsql(connectionString).EnableSensitiveDataLogging();
+        
     }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder builder)

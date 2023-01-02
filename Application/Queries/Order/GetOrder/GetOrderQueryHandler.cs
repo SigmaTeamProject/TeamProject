@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Queries.Order.GetOrder;
 
-public class GetOrderQueryHandler : IRequestHandler<GetOrderQuery, CheckoutModel>
+public class GetOrderQueryHandler : IRequestHandler<GetOrderQuery, OrderModel>
 {
     private readonly IRepository<Data.Order> _orderRepository;
     private readonly IMapper _mapper;
@@ -17,7 +17,7 @@ public class GetOrderQueryHandler : IRequestHandler<GetOrderQuery, CheckoutModel
         _mapper = mapper;
     }
 
-    public async Task<CheckoutModel> Handle(GetOrderQuery request, CancellationToken cancellationToken)
+    public async Task<OrderModel> Handle(GetOrderQuery request, CancellationToken cancellationToken)
     {
         var order = await _orderRepository.Query()
             .Include(order => order.Items)
@@ -31,6 +31,10 @@ public class GetOrderQueryHandler : IRequestHandler<GetOrderQuery, CheckoutModel
         {
             throw new UnauthorizedAccessException();
         }
-        return _mapper.Map<CheckoutModel>(order);
+
+        var orderModel = _mapper.Map<OrderModel>(order);
+        orderModel.ProductPreviewModels = _mapper.ProjectTo<BuyProductModel>(order.Items.AsQueryable()).ToList();
+        orderModel.TotalAmount = orderModel.ProductPreviewModels.Sum(model => model.TotalPrice);
+        return orderModel;
     }
 }

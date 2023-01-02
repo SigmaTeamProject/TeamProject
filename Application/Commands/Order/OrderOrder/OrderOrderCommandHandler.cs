@@ -15,17 +15,17 @@ public class OrderOrderCommandHandler : IRequestHandler<OrderOrderCommand, Check
     private readonly IRepository<Data.Order> _orderDepository;
     private readonly IRepository<Customer> _customerRepository;
     private readonly IRepository<Cart> _cartRepository;
-    private readonly IMediator _mediator;
+    private readonly IRepository<StorageItem> _storageItemRepository;
     private readonly IMapper _mapper;
 
-    public OrderOrderCommandHandler(IPaymentService paymentService, IRepository<PaymentConfig> repository, IMapper mapper, IRepository<Customer> customerRepository, IMediator mediator, IRepository<Data.Order> orderDepository, IRepository<Cart> cartRepository)
+    public OrderOrderCommandHandler(IPaymentService paymentService, IMapper mapper, IRepository<Customer> customerRepository, IMediator mediator, IRepository<Data.Order> orderDepository, IRepository<Cart> cartRepository, IRepository<StorageItem> storageItemRepository)
     {
         _paymentService = paymentService;
         _mapper = mapper;
         _customerRepository = customerRepository;
-        _mediator = mediator;
         _orderDepository = orderDepository;
         _cartRepository = cartRepository;
+        _storageItemRepository = storageItemRepository;
     }
 
     public async Task<CheckModel> Handle(OrderOrderCommand request, CancellationToken cancellationToken)
@@ -50,6 +50,7 @@ public class OrderOrderCommandHandler : IRequestHandler<OrderOrderCommand, Check
         };
         await _orderDepository.AddAsync(order);
         await _orderDepository.SaveChangesAsync();
+        await DeleteProductsFromStorage(order.Items, cart);
         var checkModel = new CheckModel
         {
             Id = order.Id,
@@ -66,6 +67,19 @@ public class OrderOrderCommandHandler : IRequestHandler<OrderOrderCommand, Check
         return checkModel;
     }
 
+    private async Task DeleteProductsFromStorage(IEnumerable<OrderItem> products, Cart cart)
+    {
+        var storageItems = await _storageItemRepository.Query()
+            .Include(item => item.Product)
+            .Where(item => cart.Items!.Select(it => it.ProductId).Contains(item.Product!.Id))
+            .ToListAsync();
+        foreach (var item in storageItems)
+        {
+            item.Amount -= products.First(product => product.ProductId == item.ProductId).Amount;
+        }
+        await _storageItemRepository.UpdateRangeAsync(storageItems);
+        await _storageItemRepository.SaveChangesAsync();
+    }
     private async Task<(PaymentConfig, bool)> Pay(OrderOrderCommand request)
     {
         var customer = await _customerRepository.Query()

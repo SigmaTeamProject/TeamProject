@@ -10,6 +10,7 @@ using DAL.Repository;
 using Application.Services.Interfaces;
 using Application.Services.Implementation;
 using DAL.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebApi.Extensions
 {
@@ -70,7 +71,7 @@ namespace WebApi.Extensions
         public static void AddServices(this IServiceCollection services)
         {
             //Mediator
-            services.AddMediator();
+            services.AddMediator(AppDomain.CurrentDomain.GetAssemblies());
 
             //TokenManager
             services.AddScoped<ITokenManager, TokenManager>();
@@ -89,24 +90,22 @@ namespace WebApi.Extensions
             services.AddScoped<IRepository<StorageItem>, Repository<StorageItem>>();
             services.AddScoped<IRepository<CartItem>, Repository<CartItem>>();
             services.AddScoped<IRepository<ProductCharacteristic>, Repository<ProductCharacteristic>>();
-            services.AddScoped<IRepository<Check>, Repository<Check>>();
             services.AddScoped<IRepository<PaymentConfig>, Repository<PaymentConfig>>();
         }
 
         public static void AddContext(this IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>();
+            //services.AddDbContext<ApplicationDbContext>();
             /*services.AddDbContext<ApplicationDbContext>(
                 optionsBuilder => optionsBuilder
                     .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")!, b => b.MigrationsAssembly("WebApi"))
                     .EnableSensitiveDataLogging()
                 );*/
-            //services.AddDbContext<ApplicationDbContext>(
-            //    optionsBuilder => optionsBuilder
-            //        .UseNpgsql("Host=localhost;Username=aloshaprokopenko5;Password=787898;Database=sigma_db")
-            //        .EnableSensitiveDataLogging()
-            //);
-            //builder.Services.AddEntityFrameworkNpgsql();
+            services.AddDbContext<ApplicationDbContext>(
+                optionsBuilder => optionsBuilder
+                    .UseNpgsql("Host=localhost;Username=aloshaprokopenko5;Password=787898;Database=sigma_db")
+                    .EnableSensitiveDataLogging()
+            );
         }
     }
 }

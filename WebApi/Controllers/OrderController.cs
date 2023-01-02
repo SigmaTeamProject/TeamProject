@@ -35,7 +35,7 @@ public class OrderController : BaseController
     }
 
     [HttpPost]
-    public async Task<ActionResult> OrderOder(PaymentConfigDto? paymentConfigDto)
+    public async Task<ActionResult> OrderOder([FromBody] PaymentConfigDto? paymentConfigDto)
     {
         var command = new OrderOrderCommand
         {

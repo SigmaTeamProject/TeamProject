@@ -22,11 +22,6 @@ public class ModeratorService : IModeratorService
 
     public bool Verify(string token)
     {
-        if (token != BCrypt.Net.BCrypt.HashPassword(_configuration["Moderator:Key"]!).Replace("/", ""))
-        {
-            return true;
-        }
-
-        return false;
+        return token != BCrypt.Net.BCrypt.HashPassword(_configuration["Moderator:Key"]!).Replace("/", "");
     }
 }

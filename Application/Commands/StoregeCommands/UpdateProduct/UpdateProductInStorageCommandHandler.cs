@@ -7,12 +7,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Commands.StoregeCommands.UpdateProduct
 {
-    public class UpdateProdcuctInStorageCommandHandler : IRequestHandler<UpdateProductInStorageCommand, StorageItemModel>
+    public class UpdateProductInStorageCommandHandler : IRequestHandler<UpdateProductInStorageCommand, StorageItemModel>
     {
         private readonly IRepository<StorageItem> _repository;
         private readonly IMapper _mapper;
 
-        public UpdateProdcuctInStorageCommandHandler(IRepository<StorageItem> repository,IMapper mapper)
+        public UpdateProductInStorageCommandHandler(IRepository<StorageItem> repository,IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;

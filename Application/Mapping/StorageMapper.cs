@@ -16,6 +16,8 @@ namespace Application.Mapping
             CreateMap<AddProductInStorageCommand, StorageItem>().ReverseMap();
             CreateMap<ProductCharacteristicModel, ProductCharacteristic>().ReverseMap();
             CreateMap<StorageItemModel, StorageItem>()
+                .ForPath(cart => cart.ProductId, 
+                    opt => opt.MapFrom(p => p.Id))
                 .ForPath(cart => cart.Product!.Name,
                 opt => opt.MapFrom(p => p.Name))
                 .ForPath(cart => cart.Product!.Price,
