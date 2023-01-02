@@ -1,4 +1,3 @@
-using Data;
 
 namespace Application.Models;
 

@@ -28,10 +28,9 @@ public class OrderController : BaseController
     {
         var command = new GetOrderQuery
         {
-            UserId = UserId,
             Id = id
         };
-        var res = await Mediator.Send(command);
+        var res = Mediator.Send(command);
         return Ok(res);
     }
 
