@@ -11,16 +11,14 @@ namespace Application.Commands.CartCommands.AddProduct
     {
         private readonly IRepository<Cart> _cartRepository;
         private readonly IRepository<StorageItem> _storageItemRepository;
-        private readonly IRepository<CartItem> _cartItemRepository;
         private readonly IMapper _mapper;
 
         public AddProductInCartCommandHandler(IMapper mapper, IRepository<Cart> cartRepository,
-            IRepository<StorageItem> storageItemRepository, IRepository<CartItem> cartItemRepository)
+            IRepository<StorageItem> storageItemRepository)
         {
             _cartRepository = cartRepository;
             _storageItemRepository = storageItemRepository;
             _mapper = mapper;
-            _cartItemRepository = cartItemRepository;
         }
         public async Task<CartModel> Handle(AddProductInCartCommand request, CancellationToken cancellationToken)
         {
@@ -29,6 +27,7 @@ namespace Application.Commands.CartCommands.AddProduct
             var userId = request.UserId;
             var cart = await _cartRepository.Query()
                 .Include(cart => cart.Items)
+                .ThenInclude(items => items.Product)
                 .FirstOrDefaultAsync(cart => cart.CustomerId == userId);
 
             if (cart == null) throw new ArgumentException();
@@ -56,14 +55,11 @@ namespace Application.Commands.CartCommands.AddProduct
             await _cartRepository.UpdateAsync(cart);
             await _cartRepository.SaveChangesAsync();
 
-            var list = _cartItemRepository.Query()
-                .Include(item => item.Product)
-                .Where(item => cart.Items.Contains(item));
             var cartModel = new CartModel
             {
-                Products = _mapper.Map<ICollection<BuyProductModel>>(list)
+                Products = await _mapper.ProjectTo<BuyProductModel>(cart.Items.AsQueryable()).ToListAsync()
             };
-            cartModel.TotalPrice = cartModel.Products.Select(p => p.Price * p.Quantity).Sum();
+            cartModel.TotalPrice = cartModel.Products.Sum(p => p.Price * p.Quantity);
 
             return cartModel;
         }
