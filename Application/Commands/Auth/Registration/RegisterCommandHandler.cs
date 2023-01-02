@@ -14,14 +14,16 @@ namespace Application.Commands.Auth.Registration
         private readonly IRepository<Cart> _cartRepository;
         private readonly IMapper _mapper;
         private readonly ITokenManager _tokenManager;
+        private readonly IModeratorService _moderatorService;
 
         public RegisterCommandHandler(IRepository<Customer> repository, IRepository<Cart> cartRepository,
-            IMapper mapper, ITokenManager tokenManager)
+            IMapper mapper, ITokenManager tokenManager, IModeratorService moderatorService)
         {
             _repository = repository;
             _cartRepository = cartRepository;
             _mapper = mapper;
             _tokenManager = tokenManager;
+            _moderatorService = moderatorService;
         }
 
         public async Task<(CustomerModel, string)> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
@@ -34,12 +36,21 @@ namespace Application.Commands.Auth.Registration
             {
                 throw new ArgumentException("User with this id already registered!");
             }
+
+            var role = "Customer";
+            if (request.Token != null)
+            {
+                if (_moderatorService.Verify(request.Token))
+                {
+                    role = "Moderator";
+                }
+            }
             request.BirthDate ??= DateOnly.Parse("2022-01-01");
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
             request.Password = passwordHash;
             
             var customer = await _repository.AddAsync(_mapper.Map<Customer>(request));
-            customer.Role = "Customer";
+            customer.Role = role;
             await _repository.SaveChangesAsync();
 
             await _cartRepository.AddAsync(new Cart() { CustomerId = customer.Id});

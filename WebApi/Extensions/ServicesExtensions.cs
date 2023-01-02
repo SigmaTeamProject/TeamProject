@@ -32,7 +32,7 @@ namespace WebApi.Extensions
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,
-                    Description = "Authentication Token",
+                    Description = "Authentication Login",
                     Name = "Authorization",
                     Type = SecuritySchemeType.Http,
                     BearerFormat = "JsonWebToken",
