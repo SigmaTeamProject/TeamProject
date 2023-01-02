@@ -1,9 +1,9 @@
 using Application.Commands.Order.Checkout;
 using Application.Commands.Order.OrderOrder;
 using Application.Dtos;
+using Application.Models;
 using Application.Queries.Order.GetAllOrders;
 using Application.Queries.Order.GetOrder;
-using Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers;
@@ -13,51 +13,47 @@ namespace WebApi.Controllers;
 public class OrderController : BaseController
 {
     [HttpGet("history")]
-    public async Task<ActionResult> GetAll()
+    public async Task<ActionResult<IEnumerable<OrderPreviewModel>>> GetAll()
     {
         var command = new GetAllOrdersQuery
         {
             CustomerId = UserId
         };
-        var res = await Mediator.Send(command);
-        return Ok(res);
+        return Ok(await Mediator.Send(command));
     }
     
     [HttpGet("{id:int}")]
-    public async Task<ActionResult> GetById (int id)
+    public async Task<ActionResult<OrderModel>> GetById (int id)
     {
         var command = new GetOrderQuery
         {
             Id = id
         };
-        var res = Mediator.Send(command);
-        return Ok(res);
+        return Ok(await Mediator.Send(command));
     }
 
     [HttpPost]
-    public async Task<ActionResult> OrderOder(PaymentConfigDto? paymentConfigDto)
+    public async Task<ActionResult<CheckModel>> OrderOder(PaymentConfigDto? paymentConfigDto)
     {
         var command = new OrderOrderCommand
         {
             CustomerId = UserId,
             PaymentConfigDto = paymentConfigDto
         };
-        var res = await Mediator.Send(command);
-        return Ok(res);
+        return Ok(await Mediator.Send(command));
     }
     [HttpPut("payment")]
-    public async Task<ActionResult> AddPaymentConfig([FromBody] PaymentConfigDto paymentConfig)
+    public async Task<IActionResult> AddPaymentConfig([FromBody] PaymentConfigDto paymentConfig)
     {
         return Ok();
     }
     [HttpGet]
-    public async Task<ActionResult> Checkout()
+    public async Task<ActionResult<OrderModel>> Checkout()
     {
         var command = new CheckoutCommand
         {
             CustomerId = UserId,
         };
-        var res = await Mediator.Send(command);
-        return Ok(res);
+        return Ok(await Mediator.Send(command));
     }
 }
