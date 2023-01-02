@@ -42,7 +42,7 @@ public class ProductController : BaseController
         };
         return Ok(await _mediator.Send(command));
     }
-    [HttpPost]
+    [HttpPut]
     public async Task<ActionResult> Update(ProductDto product) //works
     {
         var command = new UpdateProductCommand
