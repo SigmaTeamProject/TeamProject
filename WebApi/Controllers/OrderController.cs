@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+using Application.Commands.Order.AddPaymentMethod;
 using Application.Commands.Order.Checkout;
 using Application.Commands.Order.OrderOrder;
 using Application.Dtos;
@@ -5,6 +7,7 @@ using Application.Queries.Order.GetAllOrders;
 using Application.Queries.Order.GetOrder;
 using Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace WebApi.Controllers;
 
@@ -28,14 +31,15 @@ public class OrderController : BaseController
     {
         var command = new GetOrderQuery
         {
-            Id = id
+            Id = id,
+            UserId = UserId
         };
-        var res = Mediator.Send(command);
+        var res = await Mediator.Send(command);
         return Ok(res);
     }
 
     [HttpPost]
-    public async Task<ActionResult> OrderOder([FromBody] PaymentConfigDto? paymentConfigDto)
+    public async Task<ActionResult> OrderOder([FromBody(EmptyBodyBehavior = EmptyBodyBehavior.Allow)]PaymentConfigDto? paymentConfigDto)
     {
         var command = new OrderOrderCommand
         {
@@ -48,7 +52,13 @@ public class OrderController : BaseController
     [HttpPut("payment")]
     public async Task<ActionResult> AddPaymentConfig([FromBody] PaymentConfigDto paymentConfig)
     {
-        return Ok();
+        var command = new AddPaymentMethodCommand
+        {
+            UserId = UserId,
+            PaymentConfigDto = paymentConfig
+        };
+        var res = await Mediator.Send(command);
+        return Ok(res);
     }
     [HttpGet]
     public async Task<ActionResult> Checkout()

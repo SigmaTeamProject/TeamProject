@@ -1,15 +1,6 @@
-using System.Reflection;
-using Application.Commands.CartCommands.AddProduct;
-using Application.Extensions;
 using Application.Services.Implementation;
 using Application.Services.Interfaces;
 using DAL.Context;
-using DAL.Repository;
-using DAL.Repositry;
-using Data;
-using MediatR;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
 using NLog;
 using WebApi.Extensions;
 

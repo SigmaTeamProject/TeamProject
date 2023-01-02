@@ -6,7 +6,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Application.Extensions;
 using DAL.Repositry;
 using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication;
