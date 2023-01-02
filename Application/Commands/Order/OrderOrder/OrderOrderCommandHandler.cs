@@ -52,6 +52,7 @@ public class OrderOrderCommandHandler : IRequestHandler<OrderOrderCommand, Check
         await _orderDepository.SaveChangesAsync();
         var checkModel = new CheckModel
         {
+            Id = order.Id,
             TotalAmount = order.TotalPrice,
             IsSuccess = isSuccess,
             PaymentMethod = paymentConfig.Type,
