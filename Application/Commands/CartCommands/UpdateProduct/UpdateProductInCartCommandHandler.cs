@@ -30,7 +30,7 @@ namespace Application.Commands.CartCommands.UpdateProduct
             var userId = request.UserId;
             var cart = await _cartRepository.Query()
                 .Include(cart => cart.Customer)
-                .Include(cart => cart.Items)
+                .Include(cart => cart.Items).ThenInclude(item => item.Product)
                 .FirstOrDefaultAsync(cart => cart.Customer!.Id == userId, cancellationToken);
 
             if (cart == null) throw new ArgumentException();

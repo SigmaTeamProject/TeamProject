@@ -29,7 +29,7 @@ public class ApplicationDbContext : DbContext
             .Build();
         var connectionString = configuration.GetConnectionString("DefaultConnection");
         //var connectionString = "Host=localhost;Username=aloshaprokopenko5;Password=787898;Database=sigma_db";
-        //optionsBuilder.UseSqlServer(connectionString).EnableSensitiveDataLogging();
+        optionsBuilder.UseSqlServer(connectionString).EnableSensitiveDataLogging();
         //optionsBuilder.UseNpgsql(connectionString).EnableSensitiveDataLogging();
     }
 
