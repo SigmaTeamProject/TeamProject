@@ -4,6 +4,12 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using Application.Extensions;
 using Microsoft.OpenApi.Any;
+using DAL.Repositry;
+using Data;
+using DAL.Repository;
+using Application.Services.Interfaces;
+using Application.Services.Implementation;
+using DAL.Context;
 
 namespace WebApi.Extensions
 {
@@ -59,6 +65,48 @@ namespace WebApi.Extensions
                     Example = new OpenApiString("2022-01-01")
                 });
             });
+        }
+
+        public static void AddServices(this IServiceCollection services)
+        {
+            //Mediator
+            services.AddMediator();
+
+            //TokenManager
+            services.AddScoped<ITokenManager, TokenManager>();
+
+            //PaymentService
+            services.AddScoped<IPaymentService, PaymentService>();
+
+            //AutoMapper
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            //Repositories
+            services.AddScoped<IRepository<Customer>, Repository<Customer>>();
+            services.AddScoped<IRepository<Order>, Repository<Order>>();
+            services.AddScoped<IRepository<Product>, Repository<Product>>();
+            services.AddScoped<IRepository<Cart>, Repository<Cart>>();
+            services.AddScoped<IRepository<StorageItem>, Repository<StorageItem>>();
+            services.AddScoped<IRepository<CartItem>, Repository<CartItem>>();
+            services.AddScoped<IRepository<ProductCharacteristic>, Repository<ProductCharacteristic>>();
+            services.AddScoped<IRepository<Check>, Repository<Check>>();
+            services.AddScoped<IRepository<PaymentConfig>, Repository<PaymentConfig>>();
+        }
+
+        public static void AddContext(this IServiceCollection services)
+        {
+            services.AddDbContext<ApplicationDbContext>();
+            /*services.AddDbContext<ApplicationDbContext>(
+                optionsBuilder => optionsBuilder
+                    .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")!, b => b.MigrationsAssembly("WebApi"))
+                    .EnableSensitiveDataLogging()
+                );*/
+            //services.AddDbContext<ApplicationDbContext>(
+            //    optionsBuilder => optionsBuilder
+            //        .UseNpgsql("Host=localhost;Username=aloshaprokopenko5;Password=787898;Database=sigma_db")
+            //        .EnableSensitiveDataLogging()
+            //);
+            //builder.Services.AddEntityFrameworkNpgsql();
         }
     }
 }
