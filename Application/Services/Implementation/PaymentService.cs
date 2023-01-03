@@ -22,16 +22,18 @@ public class PaymentService : IPaymentService
 
     public bool Pay(PaymentConfig paymentConfig)
     {
-        IPay pay = new CardPay();
-        if (paymentConfig.Type == GetAllPaymentMethods()[0].Type)
+        IPay pay;
+        if (paymentConfig.Type.ToLower() == GetAllPaymentMethods()[0].Type.ToLower())
         {
             pay = new CardPay();
+            return pay.Pay(paymentConfig);
         }
-        if (paymentConfig.Type == GetAllPaymentMethods()[1].Type)
+        if (paymentConfig.Type.ToLower() == GetAllPaymentMethods()[1].Type.ToLower())
         {
             pay = new PayPalPay();
-           
+            return pay.Pay(paymentConfig);
         }
-        return pay.Pay(paymentConfig);
+
+        throw new InvalidOperationException("Incorrect payment method!");
     }
 }

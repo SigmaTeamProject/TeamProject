@@ -17,21 +17,13 @@ public class ApplicationDbContext : DbContext
     public DbSet<Order> Orders { get; set; }
     public DbSet<Cart> Carts { get; set; }
     public DbSet<Cart> CartItems { get; set; }
-    public DbSet<Check> Checks { get; set; }
     public DbSet<StorageItem> StorageItems { get; set; }
     public DbSet<Customer> Customers { get; set; }
     public DbSet<PaymentConfig> PaymentConfigs { get; set; }
-
+    public DbSet<OrderItem> OrderItems { get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        var configuration = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json")
-            .Build();
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
-        //var connectionString = "Host=localhost;Username=aloshaprokopenko5;Password=787898;Database=sigma_db";
-        optionsBuilder.UseSqlServer(connectionString).EnableSensitiveDataLogging();
-        //optionsBuilder.UseNpgsql(connectionString).EnableSensitiveDataLogging();
+        
     }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder builder)
@@ -45,13 +37,12 @@ public class ApplicationDbContext : DbContext
     {
         modelBuilder.ApplyConfiguration(new ProductConfiguration());
         modelBuilder.ApplyConfiguration(new CartConfigurations());
-        modelBuilder.ApplyConfiguration(new CheckConfigurations());
         modelBuilder.ApplyConfiguration(new CustomerConfigurations());
         modelBuilder.ApplyConfiguration(new OrderConfigurations());
         modelBuilder.ApplyConfiguration(new PaymentConfigConfigurations());
         modelBuilder.ApplyConfiguration(new ProductCharacteristicConfigurations());
         modelBuilder.ApplyConfiguration(new StorageItemConfigurations());
-
+        modelBuilder.ApplyConfiguration(new OrderItemConfiguration());
         SeedData.SeedData.Seed(modelBuilder);
     }
 }

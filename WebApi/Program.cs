@@ -1,12 +1,6 @@
-using Application.Extensions;
 using Application.Services.Implementation;
 using Application.Services.Interfaces;
 using DAL.Context;
-using DAL.Repository;
-using DAL.Repositry;
-using Data;
-using MediatR;
-using Microsoft.Extensions.DependencyInjection;
 using NLog;
 using WebApi.Extensions;
 
@@ -26,16 +20,12 @@ builder.Services.AddCors(options =>
         policy.AllowAnyOrigin();
     });
 });
-
+builder.Services.AddContext();
 builder.Services.AddAuth(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwagger();
-builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
-
-builder.Services.AddContext();
 builder.Services.AddServices();
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();

@@ -1,6 +1,4 @@
 using Application.Commands.CartCommands.ClearCart;
-using Application.Commands.Order.Checkout;
-using Application.Dtos;
 using Application.Models;
 using Application.Services.Interfaces;
 using AutoMapper;
@@ -16,23 +14,77 @@ public class OrderOrderCommandHandler : IRequestHandler<OrderOrderCommand, Check
     private readonly IPaymentService _paymentService;
     private readonly IRepository<Data.Order> _orderDepository;
     private readonly IRepository<Customer> _customerRepository;
-    private readonly IMediator _mediator;
+    private readonly IRepository<Cart> _cartRepository;
+    private readonly IRepository<StorageItem> _storageItemRepository;
     private readonly IMapper _mapper;
 
-    public OrderOrderCommandHandler(IPaymentService paymentService, IRepository<PaymentConfig> repository, IMapper mapper, IRepository<Customer> customerRepository, IMediator mediator, IRepository<Data.Order> orderDepository)
+    public OrderOrderCommandHandler(IPaymentService paymentService, IMapper mapper, IRepository<Customer> customerRepository, IMediator mediator, IRepository<Data.Order> orderDepository, IRepository<Cart> cartRepository, IRepository<StorageItem> storageItemRepository)
     {
         _paymentService = paymentService;
         _mapper = mapper;
         _customerRepository = customerRepository;
-        _mediator = mediator;
         _orderDepository = orderDepository;
+        _cartRepository = cartRepository;
+        _storageItemRepository = storageItemRepository;
     }
 
     public async Task<CheckModel> Handle(OrderOrderCommand request, CancellationToken cancellationToken)
     {
+        var cart = await _cartRepository.Query()
+            .Include(cart => cart.Items)!
+            .ThenInclude(item => item.Product)
+            .FirstOrDefaultAsync(cart => cart.CustomerId == request.CustomerId, cancellationToken);
+        
+        if (cart!.Items is null)
+        {
+            throw new InvalidOperationException();
+        }
+
+        var (paymentConfig, isSuccess) = await Pay(request);
+        var order = new Data.Order
+        {
+            CustomerId = request.CustomerId,
+            Items = _mapper.Map<ICollection<OrderItem>>(cart.Items),
+            OrderDate = DateTime.Now,
+            TotalPrice = cart.Items.Sum(item => item.Amount * item.Product!.Price)
+        };
+        await _orderDepository.AddAsync(order);
+        await _orderDepository.SaveChangesAsync();
+        await DeleteProductsFromStorage(order.Items, cart);
+        var checkModel = new CheckModel
+        {
+            Id = order.Id,
+            TotalAmount = order.TotalPrice,
+            IsSuccess = isSuccess,
+            PaymentMethod = paymentConfig.Type,
+            ProductModels = _mapper.ProjectTo<BuyProductModel>(order.Items.AsQueryable())
+        };
+        var clearCartCommand = new ClearCartCommand
+        {
+            UserId = request.CustomerId
+        };
+        //await _mediator.Send(clearCartCommand);
+        return checkModel;
+    }
+
+    private async Task DeleteProductsFromStorage(IEnumerable<OrderItem> products, Cart cart)
+    {
+        var storageItems = await _storageItemRepository.Query()
+            .Include(item => item.Product)
+            .Where(item => cart.Items!.Select(it => it.ProductId).Contains(item.Product!.Id))
+            .ToListAsync();
+        foreach (var item in storageItems)
+        {
+            item.Amount -= products.First(product => product.ProductId == item.ProductId).Amount;
+        }
+        await _storageItemRepository.UpdateRangeAsync(storageItems);
+        await _storageItemRepository.SaveChangesAsync();
+    }
+    private async Task<(PaymentConfig, bool)> Pay(OrderOrderCommand request)
+    {
         var customer = await _customerRepository.Query()
             .Include(customer => customer.PaymentConfig)
-            .FirstOrDefaultAsync(customer => customer.Id == request.CustomerId, cancellationToken: cancellationToken);
+            .FirstOrDefaultAsync(customer => customer.Id == request.CustomerId);
         var paymentConfig = request.PaymentConfigDto == null ? 
             customer!.PaymentConfig 
             : _mapper.Map<PaymentConfig>(request.PaymentConfigDto);
@@ -46,33 +98,6 @@ public class OrderOrderCommandHandler : IRequestHandler<OrderOrderCommand, Check
             throw new InvalidOperationException();
         }
 
-        var clearCartCommand = new ClearCartCommand
-        {
-            UserId = request.CustomerId
-        };
-        var checkoutCommand = new CheckoutCommand
-        {
-            CustomerId = request.CustomerId,
-            PaymentConfigDto = _mapper.Map<PaymentConfigDto>(paymentConfig)
-        };
-        var orderModel = await _mediator.Send(checkoutCommand, cancellationToken);
-        var checkModel = new CheckModel
-        {
-            IsSuccess = isSuccess,
-            TotalPrice = orderModel.TotalAmount,
-            ProductModels = orderModel.Products.ToList(),
-            PaymentMethod = paymentConfig.Type
-        };
-        var order = _mapper.Map<Data.Order>(orderModel);
-        order.CustomerId = request.CustomerId;
-        order.Check = _mapper.Map<Check>(checkModel);
-        order.Check.OrderId = order.Id;
-        order.Items = _mapper.ProjectTo<CartItem>(orderModel.Products.AsQueryable()).ToList();
-        order.OrderDate = DateTime.Now;
-        order.TotalAmount = orderModel.TotalAmount;
-        await _orderDepository.AddAsync(order);
-        await _orderDepository.SaveChangesAsync();
-        await _mediator.Send(clearCartCommand, cancellationToken);
-        return checkModel;
+        return (paymentConfig, isSuccess);
     }
 }

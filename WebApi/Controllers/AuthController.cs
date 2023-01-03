@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Application.Dtos;
 using Application.Commands.Auth.Login;
@@ -10,10 +11,12 @@ namespace WebApi.Controllers
     [ApiController]
     public class AuthController : BaseController
     {
+        private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        public AuthController(IMapper mapper)
+        public AuthController(IMediator mediator, IMapper mapper)
         {
+            _mediator = mediator;
             _mapper = mapper;
         }
 
@@ -22,7 +25,7 @@ namespace WebApi.Controllers
          public async Task<IActionResult> Token([FromBody] LoginDto user)
          {
              var command = _mapper.Map<LoginCommand>(user);
-             var (customer, token) = await Mediator.Send(command);
+             var (customer, token) = await _mediator.Send(command);
              var response = new
              {
                  access_token = token,
@@ -36,7 +39,7 @@ namespace WebApi.Controllers
         public async Task<IActionResult> Register([FromBody] RegisterUserDto user)
         {
             var command = _mapper.Map<RegisterUserCommand>(user);
-            var (customer, token) = await Mediator.Send(command);
+            var (customer, token) = await _mediator.Send(command);
             var response = new
             {
                 access_token = token,

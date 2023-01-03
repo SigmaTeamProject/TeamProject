@@ -1,10 +1,13 @@
+using System.Diagnostics.CodeAnalysis;
+using Application.Commands.Order.AddPaymentMethod;
 using Application.Commands.Order.Checkout;
 using Application.Commands.Order.OrderOrder;
 using Application.Dtos;
-using Application.Models;
 using Application.Queries.Order.GetAllOrders;
 using Application.Queries.Order.GetOrder;
+using Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace WebApi.Controllers;
 
@@ -13,47 +16,58 @@ namespace WebApi.Controllers;
 public class OrderController : BaseController
 {
     [HttpGet("history")]
-    public async Task<ActionResult<IEnumerable<OrderPreviewModel>>> GetAll()
+    public async Task<ActionResult> GetAll()
     {
         var command = new GetAllOrdersQuery
         {
             CustomerId = UserId
         };
-        return Ok(await Mediator.Send(command));
+        var res = await Mediator.Send(command);
+        return Ok(res);
     }
     
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<OrderModel>> GetById (int id)
+    public async Task<ActionResult> GetById (int id)
     {
         var command = new GetOrderQuery
         {
-            Id = id
+            Id = id,
+            UserId = UserId
         };
-        return Ok(await Mediator.Send(command));
+        var res = await Mediator.Send(command);
+        return Ok(res);
     }
 
     [HttpPost]
-    public async Task<ActionResult<CheckModel>> OrderOder(PaymentConfigDto? paymentConfigDto)
+    public async Task<ActionResult> OrderOder([FromBody(EmptyBodyBehavior = EmptyBodyBehavior.Allow)]PaymentConfigDto? paymentConfigDto)
     {
         var command = new OrderOrderCommand
         {
             CustomerId = UserId,
             PaymentConfigDto = paymentConfigDto
         };
-        return Ok(await Mediator.Send(command));
+        var res = await Mediator.Send(command);
+        return Ok(res);
     }
     [HttpPut("payment")]
-    public async Task<IActionResult> AddPaymentConfig([FromBody] PaymentConfigDto paymentConfig)
+    public async Task<ActionResult> AddPaymentConfig([FromBody] PaymentConfigDto paymentConfig)
     {
-        return Ok();
+        var command = new AddPaymentMethodCommand
+        {
+            UserId = UserId,
+            PaymentConfigDto = paymentConfig
+        };
+        var res = await Mediator.Send(command);
+        return Ok(res);
     }
     [HttpGet]
-    public async Task<ActionResult<OrderModel>> Checkout()
+    public async Task<ActionResult> Checkout()
     {
         var command = new CheckoutCommand
         {
             CustomerId = UserId,
         };
-        return Ok(await Mediator.Send(command));
+        var res = await Mediator.Send(command);
+        return Ok(res);
     }
 }

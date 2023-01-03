@@ -11,11 +11,14 @@ namespace Application.Commands.CartCommands.DeleteProduct
     public class DeleteProductFromCartCommandHandler : IRequestHandler<DeleteProductFromCartCommand, CartModel>
     {
         private readonly IRepository<Cart> _cartRepository;
+        private readonly IRepository<CartItem> _cartItemRepository;
         private readonly IMapper _mapper;
 
-        public DeleteProductFromCartCommandHandler(IMapper mapper, IRepository<Cart> cartRepository)
+        public DeleteProductFromCartCommandHandler(IMapper mapper, IRepository<Cart> cartRepository, 
+            IRepository<CartItem> cartItemRepository)
         {
             _cartRepository = cartRepository;
+            _cartItemRepository = cartItemRepository;
             _mapper = mapper;
         }
 
@@ -25,7 +28,6 @@ namespace Application.Commands.CartCommands.DeleteProduct
             var userId = request.UserId;
             var cart = await _cartRepository.Query()
                 .Include(cart => cart.Items)
-                .ThenInclude(items => items.Product)
                 .FirstOrDefaultAsync(cart => cart.CustomerId == userId);
 
             if(cart == null || cart.Items == null) throw new ArgumentException();
@@ -39,11 +41,14 @@ namespace Application.Commands.CartCommands.DeleteProduct
             await _cartRepository.UpdateAsync(cart);
             await _cartRepository.SaveChangesAsync();
 
+            var list = _cartItemRepository.Query()
+                .Include(item => item.Product)
+                .Where(item => cart.Items.Contains(item));
             var cartModel = new CartModel
             {
-                Products = await _mapper.ProjectTo<BuyProductModel>(cart.Items.AsQueryable()).ToListAsync()
+                Products = _mapper.Map<ICollection<BuyProductModel>>(list)
             };
-            cartModel.TotalPrice = cartModel.Products.Sum(p => p.Price * p.Quantity);
+            cartModel.TotalPrice = cartModel.Products.Select(p => p.Price * p.Amount).Sum();
 
             return cartModel;
         }

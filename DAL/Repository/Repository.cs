@@ -19,7 +19,7 @@ public class Repository<TEntity> : IRepository<TEntity>
 
     public async Task<TEntity> GetByIdAsync(int id)
     {
-        return await _dbSet.FindAsync(id) ?? throw new ArgumentException("Entity with this id not found!");
+        return await _dbSet.FindAsync(id) ?? throw new ArgumentException($"Entity {typeof(TEntity)} with this id={id} not found!");
     }
 
     public IQueryable<TEntity> Query(params Expression<Func<TEntity,object>>[] includes)
@@ -29,6 +29,11 @@ public class Repository<TEntity> : IRepository<TEntity>
             .Aggregate<Expression<Func<TEntity,object>>,IQueryable<TEntity>>(dbSet,(current,include) => current.Include(include));
 
         return query ?? dbSet;
+    }
+
+    public async Task UpdateRangeAsync(IEnumerable<TEntity> entities)
+    {
+        await Task.Run(() => _dbSet.UpdateRange(entities));
     }
 
     public async Task<IEnumerable<TEntity>> GetAllAsync()

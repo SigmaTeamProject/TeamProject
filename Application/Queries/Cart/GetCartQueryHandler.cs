@@ -28,7 +28,7 @@ public class GetCartQueryHandler : IRequestHandler<GetCartQuery, CartModel>
         {
             Products = _mapper.Map<ICollection<BuyProductModel>>(cart!.Items)
         };
-        cartModel.TotalPrice = cartModel.Products.Sum(model => model.Price * model.Quantity);
+        cartModel.TotalPrice = cartModel.Products.Sum(model => model.Price * model.Amount);
         return cartModel;
     }
 }

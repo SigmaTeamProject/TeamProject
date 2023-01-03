@@ -27,7 +27,7 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
             throw new NotFoundException(nameof(product), request.Product.Id);
         }
 
-        if (request.Product!.Price > 0)
+        if (request.Product!.Price < 0)
         {
             throw new ArgumentException();
         }

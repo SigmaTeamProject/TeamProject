@@ -5,6 +5,7 @@ namespace Application.Commands.Auth.Registration
 {
     public class RegisterUserCommand : IRequest<(CustomerModel, string)>
     {
+        public string? Token { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public DateOnly? BirthDate { get; set; }
