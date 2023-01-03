@@ -6,6 +6,7 @@ using Application.Commands.StoregeCommands.AddProduct;
 using Application.Commands.StoregeCommands.UpdateProduct;
 using Application.Queries.Storage.GetAllProducts;
 using Application.Queries.Storage.GetProductById;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApi.Controllers
 {
@@ -21,6 +22,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "AdminModerator")]
         public async Task<ActionResult<IEnumerable<StorageItemModel>>> GetAllProducts()
         {
             var command = new GetAllStorageItemsQuery();
@@ -38,6 +40,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<StorageItemModel>> AddProduct(StorageItemDto newStorageItem)
         {
             var command = _mapper.Map<AddProductInStorageCommand>(newStorageItem);
@@ -45,6 +48,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<StorageItemModel>> UpdateProduct(UpdateStorageItemDto storageItemToUpdate)
         {
             var command = _mapper.Map<UpdateProductInStorageCommand>(storageItemToUpdate);

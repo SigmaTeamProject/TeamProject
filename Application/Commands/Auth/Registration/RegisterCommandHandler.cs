@@ -48,8 +48,9 @@ namespace Application.Commands.Auth.Registration
             request.BirthDate ??= DateOnly.Parse("2022-01-01");
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
             request.Password = passwordHash;
-            
-            var customer = await _repository.AddAsync(_mapper.Map<Customer>(request));
+            var mc = _mapper.Map<Customer>(request);
+            mc.BirthDay = request.BirthDate.Value;
+            var customer = await _repository.AddAsync(mc);
             customer.Role = role;
             await _repository.SaveChangesAsync();
 

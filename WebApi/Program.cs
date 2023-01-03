@@ -3,6 +3,7 @@ using Application.Services.Interfaces;
 using DAL.Context;
 using NLog;
 using WebApi.Extensions;
+using WebApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,7 +47,7 @@ app.UseRequestLocalization(opts =>
         .AddSupportedUICultures("en-US")
         .SetDefaultCulture("en-US");
 });
-
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 app.UseCors();
 app.UseHttpsRedirection();
 app.UseAuthentication();

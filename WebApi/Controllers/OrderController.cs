@@ -6,6 +6,7 @@ using Application.Dtos;
 using Application.Queries.Order.GetAllOrders;
 using Application.Queries.Order.GetOrder;
 using Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
@@ -16,6 +17,7 @@ namespace WebApi.Controllers;
 public class OrderController : BaseController
 {
     [HttpGet("history")]
+    [Authorize]
     public async Task<ActionResult> GetAll()
     {
         var command = new GetAllOrdersQuery
@@ -27,6 +29,7 @@ public class OrderController : BaseController
     }
     
     [HttpGet("{id:int}")]
+    [Authorize]
     public async Task<ActionResult> GetById (int id)
     {
         var command = new GetOrderQuery
@@ -39,6 +42,7 @@ public class OrderController : BaseController
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<ActionResult> OrderOder([FromBody(EmptyBodyBehavior = EmptyBodyBehavior.Allow)]PaymentConfigDto? paymentConfigDto)
     {
         var command = new OrderOrderCommand
@@ -50,6 +54,7 @@ public class OrderController : BaseController
         return Ok(res);
     }
     [HttpPut("payment")]
+    [Authorize]
     public async Task<ActionResult> AddPaymentConfig([FromBody] PaymentConfigDto paymentConfig)
     {
         var command = new AddPaymentMethodCommand
@@ -61,6 +66,7 @@ public class OrderController : BaseController
         return Ok(res);
     }
     [HttpGet]
+    [Authorize]
     public async Task<ActionResult> Checkout()
     {
         var command = new CheckoutCommand
