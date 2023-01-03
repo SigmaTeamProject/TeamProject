@@ -22,6 +22,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<CartModel>> GetCart()
         {
             var command = new GetCartQuery

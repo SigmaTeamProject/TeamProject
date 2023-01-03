@@ -5,6 +5,7 @@ using Application.Models;
 using Application.Queries.Product.GetAllProducts;
 using Application.Queries.Product.GetProductById;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers;
@@ -35,6 +36,7 @@ public class ProductController : BaseController
         return Ok(await Mediator.Send(command));
     }
     [HttpPut]
+    [Authorize(Roles = "Moderator")]
     public async Task<ActionResult<ProductModel>> Update(ProductDto product)
     {
         var command = new UpdateProductCommand
@@ -45,6 +47,7 @@ public class ProductController : BaseController
     }
 
     [HttpPost("characteristic")]
+    [Authorize(Roles = "Moderator")]
     public async Task<ActionResult<ProductCharacteristicModel>> UpdateProductCharacteristics
         (ProductCharacteristicDto productCharacteristicDto)
     {

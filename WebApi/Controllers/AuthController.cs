@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Application.Dtos;
 using Application.Commands.Auth.Login;
 using Application.Commands.Auth.Registration;
+using Application.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApi.Controllers
 {
@@ -13,11 +15,12 @@ namespace WebApi.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
-
-        public AuthController(IMediator mediator, IMapper mapper)
+        private readonly IModeratorService _moderatorService;
+        public AuthController(IMediator mediator, IMapper mapper, IModeratorService moderatorService)
         {
             _mediator = mediator;
             _mapper = mapper;
+            _moderatorService = moderatorService;
         }
 
          [HttpPost]
@@ -36,9 +39,10 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [ActionName("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterUserDto user)
+        public async Task<IActionResult> Register([FromBody] RegisterUserDto user, [FromQuery] string? tkn)
         {
             var command = _mapper.Map<RegisterUserCommand>(user);
+            command.Token = tkn;
             var (customer, token) = await _mediator.Send(command);
             var response = new
             {
@@ -46,6 +50,13 @@ namespace WebApi.Controllers
                 customer = customer
             };
             return Ok(response);
+        }
+        [HttpGet("moderator")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> GetModeratorLink()
+        {
+            var link = _moderatorService.GetModeratorLink();
+            return Ok(link);
         }
     }
 }
